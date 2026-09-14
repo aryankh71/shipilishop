@@ -1,0 +1,1020 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        پروفایل کاربری | شیپیلی شاپ
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'account/css/profile.css' %}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     Header
+========================================= -->
+
+<header class="page-header">
+
+    <div class="header-container">
+
+        <a
+            href="/"
+            class="site-logo"
+        >
+            شیپیلی شاپ
+        </a>
+
+
+        <a
+            href="/"
+            class="home-button"
+        >
+            🏠
+            بازگشت به فروشگاه
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================
+     Main
+========================================= -->
+
+<main class="profile-container">
+
+
+    <div class="profile-layout">
+
+
+        <!-- =====================================
+             Sidebar
+        ====================================== -->
+
+        <aside class="profile-sidebar">
+
+
+            <div class="user-summary">
+
+
+                <div class="user-avatar">
+
+                    {% if profile.avatar %}
+
+                        <img
+                            src="{{ profile.avatar.url }}"
+                            alt="تصویر پروفایل"
+                        >
+
+                    {% else %}
+
+                        👤
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="user-name">
+
+                    {{ request.user.get_full_name|default:request.user.username }}
+
+                </div>
+
+
+                <div class="user-mobile">
+
+                    {{ request.user.mobile }}
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 Profile Menu
+            ================================== -->
+
+            <nav class="profile-menu">
+
+
+                <button
+                    type="button"
+                    class="profile-tab active"
+                    data-target="account-section"
+                >
+                    👤
+                    حساب کاربری
+                </button>
+
+
+                <button
+                    type="button"
+                    class="profile-tab"
+                    data-target="personal-section"
+                >
+                    📝
+                    اطلاعات شخصی
+                </button>
+
+
+                <button
+                    type="button"
+                    class="profile-tab"
+                    data-target="address-section"
+                >
+                    📍
+                    آدرس‌ها
+                </button>
+
+
+                <button
+                    type="button"
+                    class="profile-tab"
+                    data-target="orders-section"
+                >
+                    📦
+                    سفارش‌های من
+                </button>
+
+
+                <a
+                    href="{% url 'logout' %}"
+                    class="logout-button"
+                >
+                    🚪
+                    خروج از حساب
+                </a>
+
+
+            </nav>
+
+
+        </aside>
+
+
+
+        <!-- =====================================
+             Content
+        ====================================== -->
+
+        <section class="profile-content">
+
+
+
+            <!-- =================================
+                 Messages
+            ================================== -->
+
+            {% if messages %}
+
+                <div class="messages-container">
+
+                    {% for message in messages %}
+
+                        <div
+                            class="message message-{{ message.tags }}"
+                        >
+
+                            <span>
+
+                                {% if message.tags == "success" %}
+                                    ✓
+                                {% elif message.tags == "error" %}
+                                    !
+                                {% else %}
+                                    ℹ
+                                {% endif %}
+
+                            </span>
+
+                            {{ message }}
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+
+            <!-- =====================================
+                 Account Section
+            ====================================== -->
+
+            <div
+                id="account-section"
+                class="profile-section active"
+            >
+
+                <div class="content-card">
+
+
+                    <div class="section-header">
+
+                        <h2>
+                            👤 حساب کاربری
+                        </h2>
+
+                        <p>
+                            اطلاعات ورود و حساب کاربری خود را مدیریت کنید.
+                        </p>
+
+                    </div>
+
+
+                    <form
+                        method="post"
+                        class="profile-form"
+                    >
+
+                        {% csrf_token %}
+
+                        <input
+                            type="hidden"
+                            name="form_type"
+                            value="account"
+                        >
+
+
+                        {{ account_form.as_p }}
+
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+                            ذخیره تغییرات
+                        </button>
+
+                    </form>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 Personal Section
+            ====================================== -->
+
+            <div
+                id="personal-section"
+                class="profile-section"
+            >
+
+                <div class="content-card">
+
+
+                    <div class="section-header">
+
+                        <h2>
+                            📝 اطلاعات شخصی
+                        </h2>
+
+                        <p>
+                            اطلاعات شخصی خود را تکمیل یا ویرایش کنید.
+                        </p>
+
+                    </div>
+
+
+                    <form
+                        method="post"
+                        enctype="multipart/form-data"
+                        class="profile-form"
+                    >
+
+                        {% csrf_token %}
+
+                        <input
+                            type="hidden"
+                            name="form_type"
+                            value="personal"
+                        >
+
+
+                        {{ profile_form.as_p }}
+
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+                            ذخیره اطلاعات
+                        </button>
+
+                    </form>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 Address Section
+            ====================================== -->
+
+            <div
+                id="address-section"
+                class="profile-section"
+            >
+
+                <div class="content-card">
+
+
+                    <div class="section-header">
+
+                        <h2>
+                            📍 آدرس‌های من
+                        </h2>
+
+                        <p>
+                            آدرس‌های ارسال سفارش خود را مدیریت کنید.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- =================================
+                         Existing Addresses
+                    ================================== -->
+
+                    {% if addresses %}
+
+
+                        <div class="addresses-list">
+
+
+                            {% for address in addresses %}
+
+
+                                <div class="address-card
+                                    {% if address.is_default %}
+                                        default-address
+                                    {% endif %}
+                                ">
+
+
+                                    <div class="address-card-header">
+
+
+                                        <div>
+
+                                            <h3>
+
+                                                {{ address.title|default:"آدرس" }}
+
+                                            </h3>
+
+
+                                            {% if address.is_default %}
+
+                                                <span class="default-badge">
+
+                                                    آدرس پیش‌فرض
+
+                                                </span>
+
+                                            {% endif %}
+
+                                        </div>
+
+
+                                        <a
+                                            href="?edit_address={{ address.id }}"
+                                            class="small-button"
+                                        >
+                                            ویرایش
+                                        </a>
+
+
+                                    </div>
+
+
+
+                                    <div class="address-details">
+
+
+                                        {% if address.receiver_name %}
+
+                                            <div>
+                                                👤
+                                                {{ address.receiver_name }}
+                                            </div>
+
+                                        {% endif %}
+
+
+                                        {% if address.mobile %}
+
+                                            <div>
+                                                📱
+                                                {{ address.mobile }}
+                                            </div>
+
+                                        {% endif %}
+
+
+                                        <div class="address-text">
+
+                                            📍
+
+                                            {{ address.province }}
+
+                                            -
+
+                                            {{ address.city }}
+
+                                            -
+
+                                            {{ address.address }}
+
+                                        </div>
+
+
+                                        {% if address.postal_code %}
+
+                                            <div>
+                                                📮
+                                                {{ address.postal_code }}
+                                            </div>
+
+                                        {% endif %}
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            {% endfor %}
+
+
+                        </div>
+
+
+                    {% else %}
+
+
+                        <div class="empty-section">
+
+                            <div class="icon">
+                                📍
+                            </div>
+
+                            <h3>
+                                هنوز آدرسی ثبت نکرده‌اید
+                            </h3>
+
+                            <p>
+                                برای ثبت سفارش، حداقل یک آدرس ثبت کنید.
+                            </p>
+
+                        </div>
+
+
+                    {% endif %}
+
+
+
+                    <!-- =================================
+                         Edit Address
+                    ================================== -->
+
+                    {% if edit_address and edit_address_form %}
+
+
+                        <div class="form-divider"></div>
+
+
+                        <div class="sub-section-header">
+
+                            <h3>
+                                ✏️ ویرایش آدرس
+                            </h3>
+
+                        </div>
+
+
+                        <form
+                            method="post"
+                            class="profile-form"
+                        >
+
+                            {% csrf_token %}
+
+                            <input
+                                type="hidden"
+                                name="form_type"
+                                value="edit_address"
+                            >
+
+                            <input
+                                type="hidden"
+                                name="address_id"
+                                value="{{ edit_address.id }}"
+                            >
+
+
+                            {{ edit_address_form.as_p }}
+
+
+                            <div class="form-actions">
+
+                                <button
+                                    type="submit"
+                                    class="primary-button"
+                                >
+                                    ذخیره آدرس
+                                </button>
+
+
+                                <a
+                                    href="{% url 'profile' %}"
+                                    class="secondary-button"
+                                >
+                                    انصراف
+                                </a>
+
+                            </div>
+
+
+                        </form>
+
+
+                    {% endif %}
+
+
+
+                    <!-- =================================
+                         New Address
+                    ================================== -->
+
+                    <div class="form-divider"></div>
+
+
+                    <div class="sub-section-header">
+
+                        <h3>
+                            ➕ افزودن آدرس جدید
+                        </h3>
+
+                    </div>
+
+
+                    <form
+                        method="post"
+                        class="profile-form"
+                    >
+
+                        {% csrf_token %}
+
+                        <input
+                            type="hidden"
+                            name="form_type"
+                            value="address"
+                        >
+
+
+                        {{ address_form.as_p }}
+
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+                            ثبت آدرس
+                        </button>
+
+
+                    </form>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 Orders Section
+            ====================================== -->
+
+            <div
+                id="orders-section"
+                class="profile-section"
+            >
+
+                <div class="content-card">
+
+
+                    <div class="section-header">
+
+                        <h2>
+                            📦 سفارش‌های من
+                        </h2>
+
+                        <p>
+                            سفارش‌ها، وضعیت پرداخت و تراکنش‌های خود را مشاهده کنید.
+                        </p>
+
+                    </div>
+
+
+
+                    {% if orders %}
+
+
+                        <div class="orders-list">
+
+
+                            {% for order in orders %}
+
+
+                                <div class="order-card">
+
+
+                                    <!-- =========================
+                                         Order Header
+                                    ========================== -->
+
+                                    <div class="order-card-header">
+
+
+                                        <div>
+
+                                            <div class="order-number">
+
+                                                سفارش #{{ order.id }}
+
+                                            </div>
+
+
+                                            <div class="order-date">
+
+                                                {{ order.created_at|date:"Y/m/d - H:i" }}
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <!-- Order Status -->
+
+                                        {% if order.status == "PAID" %}
+
+                                            <span class="order-status-badge order-status-paid">
+                                                پرداخت شده
+                                            </span>
+
+                                        {% elif order.status == "PENDING_PAYMENT" %}
+
+                                            <span class="order-status-badge order-status-pending">
+                                                در انتظار پرداخت
+                                            </span>
+
+                                        {% elif order.status == "PAYMENT_FAILED" %}
+
+                                            <span class="order-status-badge order-status-failed">
+                                                پرداخت ناموفق
+                                            </span>
+
+                                        {% elif order.status == "CANCELLED" %}
+
+                                            <span class="order-status-badge order-status-cancelled">
+                                                لغو شده
+                                            </span>
+
+                                        {% elif order.status == "EXPIRED" %}
+
+                                            <span class="order-status-badge order-status-expired">
+                                                منقضی شده
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="order-status-badge order-status-pending">
+                                                {{ order.get_status_display }}
+                                            </span>
+
+                                        {% endif %}
+
+
+                                    </div>
+
+
+
+                                    <!-- =========================
+                                         Order Information
+                                    ========================== -->
+
+                                    <div class="order-info-grid">
+
+
+                                        <div class="order-info-item">
+
+                                            <span class="order-info-label">
+                                                تعداد کالا
+                                            </span>
+
+                                            <span class="order-info-value">
+
+                                                {{ order.total_items }}
+
+                                                کالا
+
+                                            </span>
+
+                                        </div>
+
+
+
+                                        <div class="order-info-item">
+
+                                            <span class="order-info-label">
+                                                مبلغ سفارش
+                                            </span>
+
+                                            <span class="order-info-value">
+
+                                                {{ order.total_price|floatformat:"0" }}
+
+                                                تومان
+
+                                            </span>
+
+                                        </div>
+
+
+
+                                        <div class="order-info-item">
+
+                                            <span class="order-info-label">
+                                                وضعیت سفارش
+                                            </span>
+
+                                            <span class="order-info-value">
+
+                                                {{ order.get_status_display }}
+
+                                            </span>
+
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                    <!-- =========================
+                                         Payment Status
+                                    ========================== -->
+
+                                    {% if order.latest_payment %}
+
+
+                                        {% if order.latest_payment.status == "SUCCESS" %}
+
+
+                                            <div class="payment-status payment-success">
+
+                                                <span>
+                                                    ✓
+                                                </span>
+
+                                                <span>
+
+                                                    پرداخت موفق
+
+                                                </span>
+
+                                            </div>
+
+
+                                        {% elif order.latest_payment.status == "FAILED" %}
+
+
+                                            <div class="payment-status payment-failed">
+
+                                                <span>
+                                                    ✕
+                                                </span>
+
+                                                <span>
+
+                                                    پرداخت ناموفق
+
+                                                </span>
+
+                                                {% if order.latest_payment.failure_reason %}
+
+                                                    <span>
+                                                        -
+                                                        {{ order.latest_payment.failure_reason }}
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </div>
+
+
+                                        {% elif order.latest_payment.status == "PENDING" %}
+
+
+                                            <div class="payment-status payment-pending">
+
+                                                <span>
+                                                    ⏳
+                                                </span>
+
+                                                <span>
+
+                                                    پرداخت در انتظار تکمیل است
+
+                                                </span>
+
+                                            </div>
+
+
+                                        {% elif order.latest_payment.status == "CREATED" %}
+
+
+                                            <div class="payment-status payment-created">
+
+                                                <span>
+                                                    ⏳
+                                                </span>
+
+                                                <span>
+
+                                                    تراکنش ایجاد شده و هنوز پرداخت نشده است
+
+                                                </span>
+
+                                            </div>
+
+
+                                        {% elif order.latest_payment.status == "CANCELLED" %}
+
+
+                                            <div class="payment-status payment-cancelled">
+
+                                                <span>
+                                                    !
+                                                </span>
+
+                                                <span>
+
+                                                    تراکنش لغو شده است
+
+                                                </span>
+
+                                            </div>
+
+
+                                        {% endif %}
+
+
+                                    {% else %}
+
+
+                                        <div class="payment-status payment-none">
+
+                                            <span>
+                                                ℹ
+                                            </span>
+
+                                            <span>
+                                                هنوز تراکنشی برای این سفارش ثبت نشده است.
+                                            </span>
+
+                                        </div>
+
+
+                                    {% endif %}
+
+
+
+                                    <!-- =========================
+                                         Order Footer
+                                    ========================== -->
+
+                                    <div class="order-card-footer">
+
+
+                                        <div class="order-total">
+
+                                            مبلغ نهایی:
+
+                                            <strong>
+
+                                                {{ order.total_price|floatformat:"0" }}
+
+                                                تومان
+
+                                            </strong>
+
+                                        </div>
+
+
+                                        <a
+                                            href="{% url 'order_detail' order.id %}"
+                                            class="order-detail-btn"
+                                        >
+
+                                            مشاهده جزئیات سفارش
+
+                                            ←
+
+                                        </a>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            {% endfor %}
+
+
+                        </div>
+
+
+                    {% else %}
+
+
+                        <div class="empty-section">
+
+                            <div class="icon">
+                                📦
+                            </div>
+
+                            <h3>
+                                هنوز سفارشی ثبت نکرده‌اید
+                            </h3>
+
+                            <p>
+                                پس از ثبت سفارش، تاریخچه سفارش‌ها و وضعیت پرداخت
+                                در این قسمت نمایش داده خواهد شد.
+                            </p>
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </div>
+
+</main>
+
+
+
+<script
+    src="{% static 'account/js/profile.js' %}"
+></script>
+
+
+</body>
+
+</html>

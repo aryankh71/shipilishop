@@ -1,0 +1,1761 @@
+{% load price_filters %}
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    شیپیلی شاپ
+</title>
+
+
+<style>
+
+    /* =========================
+       Reset
+    ========================= */
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    body {
+        font-family: Tahoma, Arial, sans-serif;
+        background: #f6f7fb;
+        color: #222;
+    }
+
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+
+    button,
+    input {
+        font-family: inherit;
+    }
+
+
+    /* =========================
+       Header
+    ========================= */
+
+    header {
+        background: #ffffff;
+        border-bottom: 1px solid #eeeeee;
+
+        position: sticky;
+        top: 0;
+
+        z-index: 100;
+    }
+
+
+    .header-container {
+        max-width: 1200px;
+
+        margin: auto;
+
+        padding: 18px 25px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 20px;
+    }
+
+
+    /* =========================
+       Logo
+    ========================= */
+
+    .logo {
+        font-size: 26px;
+        font-weight: bold;
+
+        color: #111827;
+
+        white-space: nowrap;
+    }
+
+
+    .logo span {
+        color: #6366f1;
+    }
+
+
+    /* =========================
+       Header Actions
+    ========================= */
+
+    .header-actions {
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+
+        flex-wrap: wrap;
+    }
+
+
+    .user-name {
+        color: #374151;
+
+        font-size: 14px;
+
+        white-space: nowrap;
+    }
+
+
+    .header-btn {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 10px 18px;
+
+        border-radius: 10px;
+
+        transition: 0.2s;
+
+        font-size: 14px;
+
+        cursor: pointer;
+    }
+
+
+    /* =========================
+       Login
+    ========================= */
+
+    .login-btn {
+        color: #4f46e5;
+
+        border: 1px solid #4f46e5;
+
+        background: white;
+    }
+
+
+    .login-btn:hover {
+        background: #4f46e5;
+
+        color: white;
+    }
+
+
+    /* =========================
+       Register
+    ========================= */
+
+    .register-btn {
+        background: #4f46e5;
+
+        color: white;
+
+        border: 1px solid #4f46e5;
+    }
+
+
+    .register-btn:hover {
+        background: #4338ca;
+    }
+
+
+    /* =========================
+       Logout
+    ========================= */
+
+    .logout-btn {
+        background: #ef4444;
+
+        color: white;
+
+        border: none;
+    }
+
+
+    .logout-btn:hover {
+        background: #dc2626;
+    }
+
+
+    /* =========================
+       Cart Button
+    ========================= */
+
+    .cart-btn {
+        display: inline-flex;
+
+        align-items: center;
+
+        padding: 11px 18px;
+
+        border-radius: 10px;
+
+        background: #111827;
+
+        color: white;
+
+        transition: 0.2s;
+    }
+
+
+    .cart-btn:hover {
+        background: #374151;
+    }
+
+
+    /* =========================
+       Cart Count
+    ========================= */
+
+    .cart-count {
+        display: none;
+
+        align-items: center;
+        justify-content: center;
+
+        min-width: 22px;
+
+        height: 22px;
+
+        margin-right: 7px;
+
+        padding: 0 6px;
+
+        border-radius: 50%;
+
+        background: #ef4444;
+
+        color: white;
+
+        font-size: 12px;
+
+        font-weight: bold;
+    }
+
+
+    /* =========================
+       Cart Shake Animation
+    ========================= */
+
+    .cart-btn.cart-has-items {
+        animation:
+            cartShake 0.6s ease-in-out;
+    }
+
+
+    @keyframes cartShake {
+
+        0% {
+            transform: translateX(0);
+        }
+
+        20% {
+            transform: translateX(-4px);
+        }
+
+        40% {
+            transform: translateX(4px);
+        }
+
+        60% {
+            transform: translateX(-3px);
+        }
+
+        80% {
+            transform: translateX(3px);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+
+    }
+
+
+    /* =========================
+       Messages
+    ========================= */
+
+    .messages {
+        max-width: 1200px;
+
+        margin: 20px auto;
+
+        padding: 0 25px;
+    }
+
+
+    .message {
+        padding: 14px 18px;
+
+        background: white;
+
+        border-radius: 12px;
+
+        margin-bottom: 10px;
+
+        border-right: 4px solid #22c55e;
+
+        box-shadow:
+            0 5px 15px
+            rgba(0, 0, 0, 0.05);
+
+        animation:
+            messageFadeOut 4s forwards;
+    }
+
+
+    .message.error {
+        border-right-color: #dc2626;
+    }
+
+
+    .message.warning {
+        border-right-color: #f59e0b;
+    }
+
+
+    @keyframes messageFadeOut {
+
+        0% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        80% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        100% {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+    }
+
+
+    /* =========================
+       Welcome
+    ========================= */
+
+    .welcome {
+        max-width: 1200px;
+
+        margin: 40px auto 25px;
+
+        padding: 0 25px;
+    }
+
+
+    .welcome-box {
+        background:
+            linear-gradient(
+                135deg,
+                #4f46e5,
+                #7c3aed
+            );
+
+        color: white;
+
+        border-radius: 22px;
+
+        padding: 45px;
+
+        box-shadow:
+            0 15px 40px
+            rgba(
+                79,
+                70,
+                229,
+                0.18
+            );
+    }
+
+
+    .welcome-box h1 {
+        font-size: 34px;
+
+        margin-bottom: 12px;
+    }
+
+
+    .welcome-box p {
+        font-size: 16px;
+
+        opacity: 0.9;
+
+        line-height: 2;
+    }
+
+
+    /* =========================
+       Products Section
+    ========================= */
+
+    .products-section {
+        max-width: 1200px;
+
+        margin: 45px auto;
+
+        padding: 0 25px;
+    }
+
+
+    .section-title {
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        margin-bottom: 25px;
+
+        gap: 15px;
+    }
+
+
+    .section-title h2 {
+        font-size: 26px;
+
+        color: #111827;
+    }
+
+
+    .section-title span {
+        color: #6b7280;
+
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       Products Grid
+    ========================= */
+
+    .products-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fill,
+                minmax(240px, 1fr)
+            );
+
+        gap: 22px;
+    }
+
+
+    /* =========================
+       Product Card
+    ========================= */
+
+    .product-card {
+        background: white;
+
+        border-radius: 18px;
+
+        overflow: hidden;
+
+        box-shadow:
+            0 8px 25px
+            rgba(
+                0,
+                0,
+                0,
+                0.06
+            );
+
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+
+
+    .product-card:hover {
+        transform: translateY(-6px);
+
+        box-shadow:
+            0 15px 35px
+            rgba(
+                0,
+                0,
+                0,
+                0.10
+            );
+    }
+
+
+    /* =========================
+       Product Image
+    ========================= */
+
+    .product-image {
+        height: 230px;
+
+        background: #f3f4f6;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+    }
+
+
+    .product-image img {
+        width: 100%;
+
+        height: 100%;
+
+        object-fit: contain;
+
+        transition:
+            transform 0.3s ease;
+    }
+
+
+    .product-card:hover
+    .product-image img {
+        transform: scale(1.06);
+    }
+
+
+    .no-image {
+        color: #9ca3af;
+
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       Product Content
+    ========================= */
+
+    .product-content {
+        padding: 20px;
+    }
+
+
+    .product-name {
+        font-size: 18px;
+
+        font-weight: bold;
+
+        margin-bottom: 12px;
+
+        color: #111827;
+
+        min-height: 24px;
+    }
+
+
+    .product-info {
+        color: #6b7280;
+
+        font-size: 14px;
+
+        line-height: 2;
+    }
+
+
+    /* =========================
+       Price
+    ========================= */
+
+    .product-price {
+        margin-top: 15px;
+
+        font-size: 21px;
+
+        font-weight: bold;
+
+        color: #111827;
+    }
+
+
+    .price-unit {
+        font-size: 12px;
+
+        color: #6b7280;
+
+        margin-right: 4px;
+    }
+
+
+    /* =========================
+       Stock
+    ========================= */
+
+    .stock {
+        display: inline-block;
+
+        margin-top: 10px;
+
+        padding: 5px 10px;
+
+        border-radius: 8px;
+
+        font-size: 12px;
+
+        background: #ecfdf5;
+
+        color: #15803d;
+    }
+
+
+    /* =========================
+       Low Stock
+    ========================= */
+
+    .stock-low {
+        display: inline-block;
+
+        margin-top: 10px;
+
+        padding: 5px 10px;
+
+        border-radius: 8px;
+
+        font-size: 12px;
+
+        background: #fef3c7;
+
+        color: #b45309;
+    }
+
+
+    /* =========================
+       Out Of Stock
+    ========================= */
+
+    .stock-empty {
+        display: inline-block;
+
+        margin-top: 10px;
+
+        padding: 5px 10px;
+
+        border-radius: 8px;
+
+        font-size: 12px;
+
+        background: #fef2f2;
+
+        color: #dc2626;
+    }
+
+
+    /* =========================
+       Add To Cart
+    ========================= */
+
+    .add-cart-form {
+        margin-top: 18px;
+    }
+
+
+    .add-cart-btn {
+        width: 100%;
+
+        display: block;
+
+        border: none;
+
+        cursor: pointer;
+
+        padding: 13px;
+
+        border-radius: 11px;
+
+        background: #4f46e5;
+
+        color: white;
+
+        font-size: 15px;
+
+        font-weight: bold;
+
+        text-align: center;
+
+        transition: 0.2s;
+    }
+
+
+    .add-cart-btn:hover {
+        background: #4338ca;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* =========================
+       Out Of Stock Button
+    ========================= */
+
+    .out-of-stock {
+        width: 100%;
+
+        margin-top: 18px;
+
+        padding: 13px;
+
+        border: none;
+
+        border-radius: 11px;
+
+        background: #e5e7eb;
+
+        color: #6b7280;
+
+        font-size: 15px;
+
+        cursor: not-allowed;
+    }
+
+
+    /* =========================
+       Empty Products
+    ========================= */
+
+    .empty-products {
+        background: white;
+
+        padding: 50px;
+
+        text-align: center;
+
+        border-radius: 18px;
+
+        color: #6b7280;
+    }
+
+
+    /* =========================
+       Footer
+    ========================= */
+
+    footer {
+        margin-top: 70px;
+
+        background: #111827;
+
+        color: #d1d5db;
+
+        text-align: center;
+
+        padding: 30px;
+    }
+
+
+    footer strong {
+        color: white;
+    }
+
+
+    /* =========================
+       Responsive
+    ========================= */
+
+    @media (max-width: 700px) {
+
+        .header-container {
+            flex-direction: column;
+
+            align-items: stretch;
+        }
+
+
+        .header-actions {
+            justify-content: center;
+        }
+
+
+        .user-name {
+            width: 100%;
+
+            text-align: center;
+        }
+
+
+        .welcome-box {
+            padding: 30px 22px;
+        }
+
+
+        .welcome-box h1 {
+            font-size: 27px;
+        }
+
+
+        .products-grid {
+            grid-template-columns: 1fr;
+        }
+
+
+        .section-title {
+            flex-direction: column;
+
+            align-items: flex-start;
+        }
+
+    }
+
+</style>
+
+
+</head>
+
+<body>
+
+<!-- =========================
+     Header
+========================= -->
+
+<header>
+
+
+<div class="header-container">
+
+
+    <!-- Logo -->
+
+    <a
+        href="{% url 'home' %}"
+        class="logo"
+    >
+        شیپیلی
+        <span>
+            شاپ
+        </span>
+    </a>
+
+
+    <!-- Header Actions -->
+
+    <div class="header-actions">
+
+
+        {% if user.is_authenticated %}
+
+
+            <span class="user-name">
+
+                سلام
+                {{ user.get_full_name|default:user.username }}
+
+            </span>
+
+
+            <a
+                href="{% url 'profile' %}"
+                class="header-btn login-btn"
+            >
+                👤 پروفایل من
+            </a>
+
+
+            <form
+                method="post"
+                action="{% url 'logout' %}"
+                style="display: inline;"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="header-btn logout-btn"
+                >
+                    خروج
+                </button>
+
+            </form>
+
+
+        {% else %}
+
+
+            <a
+                href="{% url 'login' %}"
+                class="header-btn login-btn"
+            >
+                ورود
+            </a>
+
+
+            <a
+                href="{% url 'register' %}"
+                class="header-btn register-btn"
+            >
+                ثبت نام
+            </a>
+
+
+        {% endif %}
+
+
+        <!-- Cart -->
+
+        <a
+            href="{% url 'cart_detail' %}"
+            class="cart-btn"
+            id="cartButton"
+        >
+
+            🛒 سبد خرید
+
+
+            <span
+                class="cart-count"
+                id="cartCount"
+            >
+
+                0
+
+            </span>
+
+
+        </a>
+
+
+    </div>
+
+</div>
+
+
+</header>
+
+<!-- =========================
+     Messages
+========================= -->
+
+{% if messages %}
+
+
+<div class="messages">
+
+
+    {% for message in messages %}
+
+        <div class="message {{ message.tags }}">
+
+            {{ message }}
+
+        </div>
+
+    {% endfor %}
+
+
+</div>
+
+
+{% endif %}
+
+<!-- =========================
+     Welcome
+========================= -->
+
+<section class="welcome">
+
+
+<div class="welcome-box">
+
+
+    {% if user.is_authenticated %}
+
+
+        <h1>
+            خوش اومدی 👋
+        </h1>
+
+
+        <p>
+            محصولات مورد علاقه‌ات رو پیدا کن
+            و به سبد خریدت اضافه کن.
+        </p>
+
+
+    {% else %}
+
+
+        <h1>
+            به شیپیلی شاپ خوش اومدی 🛍️
+        </h1>
+
+
+        <p>
+            محصولات مورد علاقه‌ات رو پیدا کن،
+            به سبد خریدت اضافه کن و هر زمان
+            آماده بودی خریدت رو نهایی کن.
+        </p>
+
+
+    {% endif %}
+
+
+</div>
+
+
+</section>
+
+<!-- =========================
+     Products
+========================= -->
+
+<section class="products-section">
+
+
+<div class="section-title">
+
+
+    <h2>
+        محصولات
+    </h2>
+
+
+    <span>
+        جدیدترین محصولات فروشگاه
+    </span>
+
+
+</div>
+
+
+<div class="products-grid">
+
+
+    {% for variant in variants %}
+
+
+        <div class="product-card">
+
+
+            <!-- Product Image -->
+
+            <div class="product-image">
+
+
+                {% if variant.product.image %}
+
+                    <img
+                        src="{{ variant.product.image.url }}"
+                        alt="{{ variant.product.display_name|default:variant.product.name }}"
+                    >
+
+                {% else %}
+
+                    <span class="no-image">
+
+                        بدون تصویر
+
+                    </span>
+
+                {% endif %}
+
+
+            </div>
+
+
+            <!-- Product Content -->
+
+            <div class="product-content">
+
+
+                <h3 class="product-name">
+
+                    {{ variant.product.display_name|default:variant.product.name }}
+
+                </h3>
+
+
+                <div class="product-info">
+
+
+                    {% if variant.color %}
+
+                        <div>
+
+                            رنگ:
+
+                            {{ variant.color.display_name|default:variant.color.name }}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if variant.size %}
+
+                        <div>
+
+                            سایز:
+
+                            {{ variant.size }}
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <!-- Price -->
+
+                <div class="product-price">
+
+                    {{ variant.price|price_format }}
+
+                    <span class="price-unit">
+
+                        تومان
+
+                    </span>
+
+                </div>
+
+
+                <!-- Stock Status -->
+
+                {% if variant.available_stock > 0 %}
+
+                    {% if variant.stock_status == "رو به اتمام" %}
+
+                        <span class="stock-low">
+
+                            {{ variant.stock_status }}
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="stock">
+
+                            {{ variant.stock_status }}
+
+                        </span>
+
+                    {% endif %}
+
+
+                {% else %}
+
+                    <span class="stock-empty">
+
+                        ناموجود
+
+                    </span>
+
+                {% endif %}
+
+
+                <!-- Add To Cart -->
+
+                {% if variant.available_stock > 0 %}
+
+
+                    <form
+                        method="post"
+                        action="{% url 'add_to_cart' variant.id %}"
+                        class="add-cart-form js-add-cart-form"
+                    >
+
+                        {% csrf_token %}
+
+
+                        <input
+                            type="hidden"
+                            name="next"
+                            value="{% url 'home' %}"
+                        >
+
+
+                        <button
+                            type="submit"
+                            class="add-cart-btn"
+                        >
+
+                            🛒 افزودن به سبد
+
+                        </button>
+
+
+                    </form>
+
+
+                {% else %}
+
+
+                    <button
+                        type="button"
+                        class="out-of-stock"
+                        disabled
+                    >
+
+                        ناموجود
+
+                    </button>
+
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+
+    {% empty %}
+
+
+        <div class="empty-products">
+
+            محصولی برای نمایش وجود ندارد.
+
+        </div>
+
+
+    {% endfor %}
+
+
+</div>
+
+
+</section>
+
+<!-- =========================
+     Footer
+========================= -->
+
+<footer>
+
+<strong>
+
+    شیپیلی شاپ
+
+</strong>
+
+<br>
+
+فروشگاهی برای یک تجربه خرید بهتر ❤️
+
+
+</footer>
+
+<!-- =========================
+     JavaScript
+========================= -->
+
+<script>
+
+    /* =========================
+       Messages Timer
+    ========================= */
+
+    setTimeout(
+        function () {
+
+            const messages =
+                document.querySelectorAll(
+                    ".message"
+                );
+
+
+            messages.forEach(
+                function (message) {
+
+                    message.remove();
+
+                }
+            );
+
+
+        },
+        4000
+    );
+
+
+    /* =========================
+       Cart Elements
+    ========================= */
+
+    const cartCountElement =
+        document.getElementById(
+            "cartCount"
+        );
+
+
+    const cartButton =
+        document.getElementById(
+            "cartButton"
+        );
+
+
+    let lastCartCount = null;
+
+
+    /* =========================
+       Update Cart UI
+    ========================= */
+
+    function updateCartUI(
+        count,
+        shouldShake = true
+    ) {
+
+        count =
+            Number(
+                count
+            );
+
+
+        if (
+            count > 0
+        ) {
+
+            cartCountElement.textContent =
+                count;
+
+
+            cartCountElement.style.display =
+                "inline-flex";
+
+
+            if (
+                shouldShake
+            ) {
+
+                shakeCart();
+
+            }
+
+        }
+
+        else {
+
+            cartCountElement.textContent =
+                "0";
+
+
+            cartCountElement.style.display =
+                "none";
+
+        }
+
+
+        lastCartCount =
+            count;
+
+    }
+
+
+    /* =========================
+       Shake Cart
+    ========================= */
+
+    function shakeCart() {
+
+        cartButton.classList.remove(
+            "cart-has-items"
+        );
+
+
+        void cartButton.offsetWidth;
+
+
+        cartButton.classList.add(
+            "cart-has-items"
+        );
+
+    }
+
+
+    /* =========================
+       Get Cart Count
+    ========================= */
+
+    function updateCartCount() {
+
+        fetch(
+            "{% url 'cart_count' %}",
+            {
+                method: "GET",
+
+                headers: {
+
+                    "X-Requested-With":
+                        "XMLHttpRequest"
+
+                }
+
+            }
+        )
+
+        .then(
+            function (response) {
+
+                return response.json();
+
+            }
+        )
+
+        .then(
+            function (data) {
+
+                const newCount =
+                    Number(
+                        data.cart_count
+                    );
+
+
+                const countChanged =
+                    (
+                        lastCartCount !== null
+                        &&
+                        newCount !== lastCartCount
+                    );
+
+
+                updateCartUI(
+                    newCount,
+                    countChanged
+                );
+
+            }
+        )
+
+        .catch(
+            function (error) {
+
+                console.error(
+                    "Cart count error:",
+                    error
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       AJAX Add To Cart
+    ========================= */
+
+    document.querySelectorAll(
+        ".js-add-cart-form"
+    )
+
+    .forEach(
+        function (form) {
+
+            form.addEventListener(
+                "submit",
+
+                function (event) {
+
+                    event.preventDefault();
+
+
+                    const button =
+                        form.querySelector(
+                            ".add-cart-btn"
+                        );
+
+
+                    const originalText =
+                        button.innerHTML;
+
+
+                    button.disabled =
+                        true;
+
+
+                    button.innerHTML =
+                        "در حال افزودن..."
+
+
+                    const formData =
+                        new FormData(
+                            form
+                        );
+
+
+                    fetch(
+                        form.action,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "X-Requested-With":
+                                    "XMLHttpRequest"
+
+                            },
+
+                            body:
+                                formData
+
+                        }
+                    )
+
+                    .then(
+                        function (response) {
+
+                            return response.json()
+
+                            .then(
+                                function (data) {
+
+                                    return {
+
+                                        ok:
+                                            response.ok,
+
+                                        data:
+                                            data
+
+                                    };
+
+                                }
+                            );
+
+                        }
+                    )
+
+                    .then(
+                        function (result) {
+
+                            const data =
+                                result.data;
+
+
+                            if (
+                                data.success
+                            ) {
+
+                                updateCartUI(
+                                    data.cart_count,
+                                    true
+                                );
+
+
+                                showCartMessage(
+                                    data.message,
+                                    "success"
+                                );
+
+
+                                button.innerHTML =
+                                    "✓ اضافه شد";
+
+
+                                setTimeout(
+                                    function () {
+
+                                        button.innerHTML =
+                                            originalText;
+
+
+                                        button.disabled =
+                                            false;
+
+                                    },
+                                    1200
+                                );
+
+                            }
+
+                            else {
+
+                                showCartMessage(
+                                    data.message,
+                                    "error"
+                                );
+
+
+                                button.innerHTML =
+                                    originalText;
+
+
+                                button.disabled =
+                                    false;
+
+                            }
+
+                        }
+                    )
+
+                    .catch(
+                        function (error) {
+
+                            console.error(
+                                "Add to cart error:",
+                                error
+                            );
+
+
+                            showCartMessage(
+                                "خطایی رخ داد. دوباره تلاش کنید.",
+                                "error"
+                            );
+
+
+                            button.innerHTML =
+                                originalText;
+
+
+                            button.disabled =
+                                false;
+
+                        }
+                    );
+
+                }
+
+            );
+
+        }
+    );
+
+
+    /* =========================
+       Show AJAX Message
+    ========================= */
+
+    function showCartMessage(
+        messageText,
+        type
+    ) {
+
+        let messagesContainer =
+            document.querySelector(
+                ".messages"
+            );
+
+
+        if (
+            !messagesContainer
+        ) {
+
+            messagesContainer =
+                document.createElement(
+                    "div"
+                );
+
+
+            messagesContainer.className =
+                "messages";
+
+
+            document.body.insertBefore(
+                messagesContainer,
+                document.querySelector(
+                    ".welcome"
+                )
+            );
+
+        }
+
+
+        const message =
+            document.createElement(
+                "div"
+            );
+
+
+        message.className =
+            "message " + type;
+
+
+        message.textContent =
+            messageText;
+
+
+        messagesContainer.appendChild(
+            message
+        );
+
+
+        setTimeout(
+            function () {
+
+                message.remove();
+
+            },
+            4000
+        );
+
+    }
+
+
+    /* =========================
+       Initial Count
+    ========================= */
+
+    updateCartCount();
+
+
+    /* =========================
+       Periodic Count Sync
+    ========================= */
+
+    setInterval(
+        updateCartCount,
+        10000
+    );
+
+
+    /* =========================
+       Cart Reminder Shake
+    ========================= */
+
+    setInterval(
+        function () {
+
+            const currentCount =
+                Number(
+                    cartCountElement.textContent
+                );
+
+
+            if (
+                currentCount > 0
+            ) {
+
+                shakeCart();
+
+            }
+
+        },
+        8000
+    );
+
+</script>
+
+
+</body>
+
+</html>

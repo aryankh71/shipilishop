@@ -1,0 +1,2000 @@
+{% load price_filters %}
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
+
+<title>
+    جزئیات سفارش | شیپیلی شاپ
+</title>
+
+<style>
+
+    * {
+
+        box-sizing: border-box;
+
+        margin: 0;
+
+        padding: 0;
+
+    }
+
+
+    body {
+
+        font-family: Tahoma, Arial, sans-serif;
+
+        background: #f6f7fb;
+
+        color: #1f2937;
+
+        line-height: 1.8;
+
+    }
+
+
+    a {
+
+        text-decoration: none;
+
+    }
+
+
+    button {
+
+        font-family: inherit;
+
+    }
+
+
+    /* =========================
+       Header
+    ========================= */
+
+    .page-header {
+
+        background: #ffffff;
+
+        border-bottom: 1px solid #e5e7eb;
+
+        padding: 18px 0;
+
+        position: sticky;
+
+        top: 0;
+
+        z-index: 100;
+
+    }
+
+
+    .header-container {
+
+        max-width: 1100px;
+
+        margin: auto;
+
+        padding: 0 25px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 20px;
+
+    }
+
+
+    .logo {
+
+        font-size: 24px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+    }
+
+
+    .logo span {
+
+        color: #4f46e5;
+
+    }
+
+
+    .back-btn {
+
+        padding: 10px 18px;
+
+        border-radius: 10px;
+
+        background: #eef2ff;
+
+        color: #4338ca;
+
+        font-size: 14px;
+
+        transition: 0.2s;
+
+    }
+
+
+    .back-btn:hover {
+
+        background: #4f46e5;
+
+        color: white;
+
+    }
+
+
+    /* =========================
+       Container
+    ========================= */
+
+    .container {
+
+        max-width: 1100px;
+
+        margin: 45px auto;
+
+        padding: 0 25px;
+
+    }
+
+
+    /* =========================
+       Page Title
+    ========================= */
+
+    .page-title {
+
+        margin-bottom: 30px;
+
+    }
+
+
+    .page-title h1 {
+
+        font-size: 30px;
+
+        color: #111827;
+
+    }
+
+
+    .page-title p {
+
+        color: #6b7280;
+
+        font-size: 14px;
+
+        margin-top: 5px;
+
+    }
+
+
+    /* =========================
+       Messages
+    ========================= */
+
+    .messages {
+
+        position: fixed;
+
+        top: 90px;
+
+        left: 50%;
+
+        transform: translateX(-50%);
+
+        width: min(
+            500px,
+            calc(100% - 30px)
+        );
+
+        z-index: 9999;
+
+    }
+
+
+    .message {
+
+        background: #ffffff;
+
+        padding: 15px 20px;
+
+        border-radius: 14px;
+
+        margin-bottom: 10px;
+
+        border-right:
+            5px solid #22c55e;
+
+        box-shadow:
+            0 10px 30px
+            rgba(0, 0, 0, 0.12);
+
+        color: #1f2937;
+
+        font-size: 14px;
+
+    }
+
+
+    .message.error {
+
+        border-right-color: #dc2626;
+
+    }
+
+
+    .message.warning {
+
+        border-right-color: #f59e0b;
+
+    }
+
+
+    /* =========================
+       Order Layout
+    ========================= */
+
+    .order-layout {
+
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            320px;
+
+        gap: 25px;
+
+        align-items: start;
+
+    }
+
+
+    /* =========================
+       General Card
+    ========================= */
+
+    .card {
+
+        background: white;
+
+        border-radius: 18px;
+
+        padding: 25px;
+
+        box-shadow:
+            0 8px 25px
+            rgba(0, 0, 0, 0.06);
+
+        margin-bottom: 25px;
+
+    }
+
+
+    .card-title {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        font-size: 20px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+        padding-bottom: 15px;
+
+        margin-bottom: 20px;
+
+        border-bottom:
+            1px solid #f1f5f9;
+
+    }
+
+
+    /* =========================
+       Order Info
+    ========================= */
+
+    .order-info-grid {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 18px;
+
+    }
+
+
+    .info-box {
+
+        background: #f8fafc;
+
+        border: 1px solid #eef2f7;
+
+        border-radius: 14px;
+
+        padding: 16px;
+
+    }
+
+
+    .info-label {
+
+        display: block;
+
+        font-size: 12px;
+
+        color: #6b7280;
+
+        margin-bottom: 5px;
+
+    }
+
+
+    .info-value {
+
+        font-size: 16px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+    }
+
+
+    /* =========================
+       Status
+    ========================= */
+
+    .status-badge {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 7px;
+
+        padding: 7px 12px;
+
+        border-radius: 999px;
+
+        background: #fffbeb;
+
+        color: #92400e;
+
+        font-size: 13px;
+
+        font-weight: bold;
+
+    }
+
+
+    /* =========================
+       Products
+    ========================= */
+
+    .order-items {
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 15px;
+
+    }
+
+
+    .order-item {
+
+        border: 1px solid #eef2f7;
+
+        border-radius: 15px;
+
+        padding: 18px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 15px;
+
+    }
+
+
+    .order-item-top {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: flex-start;
+
+        gap: 20px;
+
+    }
+
+
+    .product-name {
+
+        font-size: 17px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+    }
+
+
+    .product-subtitle {
+
+        font-size: 13px;
+
+        color: #6b7280;
+
+        margin-top: 4px;
+
+    }
+
+
+    .item-price-info {
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 30px;
+
+        padding-top: 14px;
+
+        border-top:
+            1px solid #f1f5f9;
+
+    }
+
+
+    .price-box {
+
+        display: flex;
+
+        flex-direction: column;
+
+    }
+
+
+    .price-label {
+
+        font-size: 12px;
+
+        color: #6b7280;
+
+    }
+
+
+    .price-value {
+
+        font-size: 15px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+    }
+
+
+    .item-total {
+
+        color: #4f46e5;
+
+        font-size: 17px;
+
+    }
+
+
+    /* =========================
+       Address
+    ========================= */
+
+    .address-box {
+
+        background: #f8fafc;
+
+        border: 1px solid #eef2f7;
+
+        border-radius: 15px;
+
+        padding: 20px;
+
+    }
+
+
+    .address-row {
+
+        margin-bottom: 12px;
+
+    }
+
+
+    .address-row:last-child {
+
+        margin-bottom: 0;
+
+    }
+
+
+    .address-label {
+
+        font-size: 12px;
+
+        color: #6b7280;
+
+        display: block;
+
+        margin-bottom: 4px;
+
+    }
+
+
+    .address-value {
+
+        color: #111827;
+
+        font-weight: bold;
+
+        font-size: 14px;
+
+    }
+
+
+    /* =========================
+       Summary
+    ========================= */
+
+    .order-summary {
+
+        background: white;
+
+        border-radius: 18px;
+
+        padding: 25px;
+
+        box-shadow:
+            0 8px 25px
+            rgba(0, 0, 0, 0.06);
+
+        position: sticky;
+
+        top: 90px;
+
+    }
+
+
+    .summary-title {
+
+        font-size: 20px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .summary-row {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        padding: 12px 0;
+
+        border-bottom:
+            1px solid #f1f5f9;
+
+        color: #6b7280;
+
+        font-size: 14px;
+
+    }
+
+
+    .summary-row strong {
+
+        color: #111827;
+
+    }
+
+
+    .summary-total {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        padding: 20px 0;
+
+        font-size: 17px;
+
+        font-weight: bold;
+
+    }
+
+
+    .summary-total .amount {
+
+        font-size: 22px;
+
+        color: #4f46e5;
+
+    }
+
+
+    /* =========================
+       Buttons
+    ========================= */
+
+    .payment-btn {
+
+        width: 100%;
+
+        border: none;
+
+        border-radius: 11px;
+
+        padding: 15px;
+
+        background: #4f46e5;
+
+        color: white;
+
+        font-size: 15px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+
+    }
+
+
+    .payment-btn:hover {
+
+        background: #4338ca;
+
+        transform:
+            translateY(-1px);
+
+    }
+
+
+    .print-btn {
+
+        width: 100%;
+
+        border: none;
+
+        border-radius: 11px;
+
+        padding: 13px;
+
+        margin-top: 12px;
+
+        background: #f3f4f6;
+
+        color: #374151;
+
+        font-size: 14px;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+
+    }
+
+
+    .print-btn:hover {
+
+        background: #e5e7eb;
+
+    }
+
+
+    .back-order-btn {
+
+        display: block;
+
+        width: 100%;
+
+        text-align: center;
+
+        padding: 13px;
+
+        margin-top: 12px;
+
+        border-radius: 11px;
+
+        background: #eef2ff;
+
+        color: #4338ca;
+
+        transition: 0.2s;
+
+    }
+
+
+    .back-order-btn:hover {
+
+        background: #e0e7ff;
+
+    }
+
+
+    /* =========================
+       Invoice
+    ========================= */
+
+    .invoice {
+
+        background: white;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 18px;
+
+        padding: 35px;
+
+    }
+
+
+    .invoice-header {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: flex-start;
+
+        gap: 20px;
+
+        padding-bottom: 25px;
+
+        border-bottom:
+            2px solid #111827;
+
+    }
+
+
+    .invoice-brand {
+
+        font-size: 25px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+    }
+
+
+    .invoice-brand span {
+
+        color: #4f46e5;
+
+    }
+
+
+    .invoice-title {
+
+        font-size: 26px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+    }
+
+
+    .invoice-meta {
+
+        margin-top: 8px;
+
+        font-size: 13px;
+
+        color: #6b7280;
+
+    }
+
+
+    /* =========================
+       Invoice Customer
+    ========================= */
+
+    .invoice-customer {
+
+        margin-top: 25px;
+
+        padding-bottom: 25px;
+
+        border-bottom:
+            1px solid #e5e7eb;
+
+    }
+
+
+    .invoice-section-title {
+
+        font-size: 15px;
+
+        font-weight: bold;
+
+        margin-bottom: 12px;
+
+        color: #111827;
+
+    }
+
+
+    .invoice-customer p {
+
+        font-size: 14px;
+
+        margin-bottom: 6px;
+
+        color: #374151;
+
+    }
+
+
+    /* =========================
+       Invoice Table
+    ========================= */
+
+    .invoice-table {
+
+        width: 100%;
+
+        border-collapse: collapse;
+
+        margin-top: 25px;
+
+    }
+
+
+    .invoice-table th {
+
+        background: #f8fafc;
+
+        color: #374151;
+
+        font-size: 13px;
+
+        padding: 13px;
+
+        text-align: right;
+
+        border:
+            1px solid #e5e7eb;
+
+    }
+
+
+    .invoice-table td {
+
+        padding: 13px;
+
+        border:
+            1px solid #e5e7eb;
+
+        font-size: 13px;
+
+        color: #374151;
+
+    }
+
+
+    .invoice-table tfoot td {
+
+        font-weight: bold;
+
+        background: #f8fafc;
+
+    }
+
+
+    .invoice-total-row {
+
+        text-align: left;
+
+        font-size: 16px !important;
+
+        color: #4f46e5 !important;
+
+    }
+
+
+    /* =========================
+       Invoice Footer
+    ========================= */
+
+    .invoice-footer {
+
+        margin-top: 30px;
+
+        padding-top: 20px;
+
+        border-top:
+            1px solid #e5e7eb;
+
+        text-align: center;
+
+        color: #9ca3af;
+
+        font-size: 12px;
+
+    }
+
+
+    /* =========================
+       Responsive
+    ========================= */
+
+    @media (max-width: 850px) {
+
+        .order-layout {
+
+            grid-template-columns:
+                1fr;
+
+        }
+
+
+        .order-summary {
+
+            position: static;
+
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        .header-container {
+
+            padding: 0 15px;
+
+        }
+
+
+        .container {
+
+            padding: 0 15px;
+
+            margin-top: 30px;
+
+        }
+
+
+        .order-info-grid {
+
+            grid-template-columns:
+                1fr;
+
+        }
+
+
+        .order-item-top {
+
+            flex-direction: column;
+
+        }
+
+
+        .invoice {
+
+            padding: 20px;
+
+        }
+
+
+        .invoice-header {
+
+            flex-direction: column;
+
+        }
+
+
+        .invoice-table {
+
+            font-size: 11px;
+
+        }
+
+
+        .invoice-table th,
+        .invoice-table td {
+
+            padding: 8px;
+
+        }
+
+    }
+
+
+    /* =========================
+       Print
+    ========================= */
+
+    @media print {
+
+        body {
+
+            background: white;
+
+        }
+
+
+        .page-header,
+
+        .page-title,
+
+        .order-summary,
+
+        .order-info-card,
+
+        .order-products-card,
+
+        .order-address-card,
+
+        .messages,
+
+        .no-print {
+
+            display: none !important;
+
+        }
+
+
+        .container {
+
+            max-width: none;
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+
+        .order-layout {
+
+            display: block;
+
+        }
+
+
+        .card {
+
+            display: none;
+
+        }
+
+
+        .invoice-card {
+
+            display: block !important;
+
+            box-shadow: none;
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+
+        .invoice {
+
+            border: none;
+
+            border-radius: 0;
+
+            padding: 0;
+
+        }
+
+
+        @page {
+
+            size: A4;
+
+            margin: 15mm;
+
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================
+     Header
+========================= -->
+
+<header class="page-header">
+
+
+<div class="header-container">
+
+
+    <a
+        href="{% url 'home' %}"
+        class="logo"
+    >
+
+        شیپیلی
+        <span>
+            شاپ
+        </span>
+
+    </a>
+
+
+    <a
+        href="{% url 'home' %}"
+        class="back-btn"
+    >
+
+        ← بازگشت به فروشگاه
+
+    </a>
+
+
+</div>
+
+
+</header>
+
+<!-- =========================
+     Main
+========================= -->
+
+<main class="container">
+
+
+<!-- Page Title -->
+
+<div class="page-title">
+
+    <h1>
+        📦 جزئیات سفارش
+    </h1>
+
+
+    <p>
+        اطلاعات سفارش، محصولات و فاکتور خرید خود را مشاهده کنید.
+    </p>
+
+</div>
+
+
+<!-- =========================
+     Messages
+========================= -->
+
+{% if messages %}
+
+    <div class="messages">
+
+        {% for message in messages %}
+
+            <div class="message {{ message.tags }}">
+
+                {{ message }}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endif %}
+
+
+<!-- =========================
+     Order Layout
+========================= -->
+
+<div class="order-layout">
+
+
+    <!-- =====================
+         Main Content
+    ====================== -->
+
+    <div>
+
+
+        <!-- =====================
+             Order Information
+        ====================== -->
+
+        <section
+            class="card order-info-card"
+        >
+
+            <h2 class="card-title">
+
+                📋 اطلاعات سفارش
+
+            </h2>
+
+
+            <div class="order-info-grid">
+
+
+                <div class="info-box">
+
+                    <span class="info-label">
+
+                        شماره سفارش
+
+                    </span>
+
+
+                    <span class="info-value">
+
+                        #{{ order.id }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span class="info-label">
+
+                        وضعیت سفارش
+
+                    </span>
+
+
+                    <span class="status-badge">
+
+                        {{ order.get_status_display }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span class="info-label">
+
+                        تاریخ ثبت سفارش
+
+                    </span>
+
+
+                    <span class="info-value">
+
+                        {{ order.created_at }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span class="info-label">
+
+                        تعداد محصولات
+
+                    </span>
+
+
+                    <span class="info-value">
+
+                        {{ order.total_items }}
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================
+             Products
+        ====================== -->
+
+        <section
+            class="card order-products-card"
+        >
+
+            <h2 class="card-title">
+
+                🛍️ محصولات سفارش
+
+            </h2>
+
+
+            {% if order.items.all %}
+
+                <div class="order-items">
+
+
+                    {% for item in order.items.all %}
+
+
+                        <div class="order-item">
+
+
+                            <div class="order-item-top">
+
+                                <div>
+
+                                    <h3 class="product-name">
+
+                                        {{ item.variant.sku_name }}
+
+                                    </h3>
+
+
+                                    <p class="product-subtitle">
+
+                                        محصول ثبت‌شده در سفارش
+
+                                    </p>
+
+                                </div>
+
+
+                                <strong>
+
+                                    تعداد:
+                                    {{ item.quantity }}
+
+                                </strong>
+
+
+                            </div>
+
+
+                            <div class="item-price-info">
+
+
+                                <div class="price-box">
+
+                                    <span class="price-label">
+
+                                        قیمت واحد
+
+                                    </span>
+
+
+                                    <span class="price-value">
+
+                                        {{ item.unit_price|price_format }}
+                                        تومان
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="price-box">
+
+                                    <span class="price-label">
+
+                                        مبلغ کل
+
+                                    </span>
+
+
+                                    <span
+                                        class="
+                                            price-value
+                                            item-total
+                                        "
+                                    >
+
+                                        {{ item.total_price|price_format }}
+                                        تومان
+
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            {% else %}
+
+
+                <p>
+
+                    محصولی در این سفارش وجود ندارد.
+
+                </p>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+        <!-- =====================
+             Address
+        ====================== -->
+
+        <section
+            class="card order-address-card"
+        >
+
+            <h2 class="card-title">
+
+                📍 آدرس ارسال
+
+            </h2>
+
+
+            <div class="address-box">
+
+
+                <div class="address-row">
+
+                    <span class="address-label">
+
+                        گیرنده
+
+                    </span>
+
+
+                    <span class="address-value">
+
+                        {{ order.address.receiver_name }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="address-row">
+
+                    <span class="address-label">
+
+                        شهر
+
+                    </span>
+
+
+                    <span class="address-value">
+
+                        {{ order.address.city }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="address-row">
+
+                    <span class="address-label">
+
+                        آدرس
+
+                    </span>
+
+
+                    <span class="address-value">
+
+                        {{ order.address.address }}
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================
+             Invoice
+        ====================== -->
+
+        <section
+            class="
+                card
+                invoice-card
+            "
+        >
+
+
+            <div
+                id="invoice"
+                class="invoice"
+            >
+
+
+                <!-- Invoice Header -->
+
+                <div class="invoice-header">
+
+
+                    <div>
+
+                        <div class="invoice-brand">
+
+                            شیپیلی
+                            <span>
+                                شاپ
+                            </span>
+
+                        </div>
+
+
+                        <div class="invoice-meta">
+
+                            فاکتور سفارش شماره
+                            #{{ order.id }}
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="invoice-title">
+
+                            فاکتور خرید
+
+                        </div>
+
+
+                        <div class="invoice-meta">
+
+                            تاریخ ثبت:
+                            {{ order.created_at }}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- Customer -->
+
+                <div class="invoice-customer">
+
+
+                    <div class="invoice-section-title">
+
+                        اطلاعات گیرنده
+
+                    </div>
+
+
+                    <p>
+
+                        گیرنده:
+                        {{ order.address.receiver_name }}
+
+                    </p>
+
+
+                    <p>
+
+                        شهر:
+                        {{ order.address.city }}
+
+                    </p>
+
+
+                    <p>
+
+                        آدرس:
+                        {{ order.address.address }}
+
+                    </p>
+
+
+                </div>
+
+
+                <!-- Invoice Table -->
+
+                <table class="invoice-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                ردیف
+                            </th>
+
+
+                            <th>
+                                محصول
+                            </th>
+
+
+                            <th>
+                                تعداد
+                            </th>
+
+
+                            <th>
+                                قیمت واحد
+                            </th>
+
+
+                            <th>
+                                مبلغ کل
+                            </th>
+
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for item in order.items.all %}
+
+
+                            <tr>
+
+                                <td>
+
+                                    {{ forloop.counter }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ item.variant.sku_name }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ item.quantity }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ item.unit_price|price_format }}
+                                    تومان
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ item.total_price|price_format }}
+                                    تومان
+
+                                </td>
+
+
+                            </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+
+                    <tfoot>
+
+
+                        <tr>
+
+                            <td
+                                colspan="4"
+                            >
+
+                                مبلغ نهایی سفارش
+
+                            </td>
+
+
+                            <td
+                                class="invoice-total-row"
+                            >
+
+                                {{ order.total_price|price_format }}
+                                تومان
+
+                            </td>
+
+
+                        </tr>
+
+
+                    </tfoot>
+
+
+                </table>
+
+
+                <!-- Footer -->
+
+                <div class="invoice-footer">
+
+                    از خرید شما از شیپیلی شاپ سپاسگزاریم ❤️
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+
+    <!-- =====================
+         Sidebar
+    ====================== -->
+
+    <aside
+        class="order-summary"
+    >
+
+
+        <h2 class="summary-title">
+
+            خلاصه سفارش
+
+        </h2>
+
+
+        <div class="summary-row">
+
+            <span>
+
+                شماره سفارش
+
+            </span>
+
+
+            <strong>
+
+                #{{ order.id }}
+
+            </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+
+                تعداد محصولات
+
+            </span>
+
+
+            <strong>
+
+                {{ order.total_items }}
+
+            </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+
+                وضعیت
+
+            </span>
+
+
+            <strong>
+
+                {{ order.get_status_display }}
+
+            </strong>
+
+        </div>
+
+
+        <div class="summary-total">
+
+
+            <span>
+
+                مبلغ قابل پرداخت
+
+            </span>
+
+
+            <span class="amount">
+
+                {{ order.total_price|price_format }}
+                تومان
+
+            </span>
+
+
+        </div>
+
+
+        <!-- Payment -->
+
+        {% if order.status == "PENDING_PAYMENT" %}
+
+
+            <form
+                method="post"
+                action="{% url 'payment:start_payment' order.id %}"
+            >
+
+                {% csrf_token %}
+
+
+                <button
+                    type="submit"
+                    class="payment-btn"
+                >
+
+                    💳 پرداخت سفارش
+
+                </button>
+
+
+            </form>
+
+
+        {% endif %}
+
+
+        <!-- Print -->
+
+        <button
+            type="button"
+            class="
+                print-btn
+                no-print
+            "
+            onclick="window.print()"
+        >
+
+            🖨️ چاپ فاکتور
+
+        </button>
+
+
+        <!-- Back -->
+
+        <a
+            href="{% url 'cart_detail' %}"
+            class="
+                back-order-btn
+                no-print
+            "
+        >
+
+            ← بازگشت به سبد خرید
+
+        </a>
+
+
+    </aside>
+
+
+</div>
+
+</main>
+
+<!-- =========================
+     JavaScript
+========================= -->
+
+<script>
+
+
+    setTimeout(
+        function () {
+
+            const messages =
+                document.querySelectorAll(
+                    ".message"
+                );
+
+
+            messages.forEach(
+                function (
+                    message
+                ) {
+
+                    message.remove();
+
+                }
+            );
+
+
+        },
+        4000
+    );
+
+
+</script>
+
+</body>
+
+</html>

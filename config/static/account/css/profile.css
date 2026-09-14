@@ -1,0 +1,1310 @@
+/* =========================================
+   Global
+========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    background: #f6f7fb;
+
+    color: #111827;
+
+    line-height: 1.7;
+
+}
+
+
+a {
+
+    text-decoration: none;
+
+    color: inherit;
+
+}
+
+
+button,
+input,
+textarea,
+select {
+
+    font-family: inherit;
+
+}
+
+
+
+/* =========================================
+   Header
+========================================= */
+
+.page-header {
+
+    background: #ffffff;
+
+    border-bottom:
+        1px solid #e5e7eb;
+
+}
+
+
+.header-container {
+
+    max-width: 1250px;
+
+    margin: auto;
+
+    padding: 18px 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+}
+
+
+.site-logo {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    color: #4f46e5;
+
+}
+
+
+.home-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 9px 15px;
+
+    border-radius: 10px;
+
+    background: #f3f4f6;
+
+    color: #374151;
+
+    font-size: 12px;
+
+    transition: 0.2s;
+
+}
+
+
+.home-button:hover {
+
+    background: #e5e7eb;
+
+}
+
+
+
+/* =========================================
+   Main
+========================================= */
+
+.profile-container {
+
+    max-width: 1250px;
+
+    margin: 35px auto;
+
+    padding: 0 20px;
+
+}
+
+
+.profile-layout {
+
+    display: grid;
+
+    grid-template-columns:
+        280px
+        minmax(0, 1fr);
+
+    gap: 25px;
+
+    align-items: start;
+
+}
+
+
+
+/* =========================================
+   Sidebar
+========================================= */
+
+.profile-sidebar {
+
+    background: #ffffff;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    position: sticky;
+
+    top: 20px;
+
+}
+
+
+.user-summary {
+
+    padding: 25px 20px;
+
+    text-align: center;
+
+    border-bottom:
+        1px solid #f1f5f9;
+
+}
+
+
+.user-avatar {
+
+    width: 80px;
+
+    height: 80px;
+
+    margin: 0 auto 12px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #eef2ff;
+
+    color: #4f46e5;
+
+    font-size: 34px;
+
+}
+
+
+.user-avatar img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+
+.user-name {
+
+    font-weight: bold;
+
+    font-size: 15px;
+
+    color: #111827;
+
+}
+
+
+.user-mobile {
+
+    margin-top: 3px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+}
+
+
+
+/* =========================================
+   Profile Menu
+========================================= */
+
+.profile-menu {
+
+    padding: 10px;
+
+}
+
+
+.profile-tab,
+.logout-button {
+
+    width: 100%;
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 14px;
+
+    border-radius: 10px;
+
+    color: #4b5563;
+
+    font-size: 13px;
+
+    text-align: right;
+
+    margin-bottom: 4px;
+
+    transition: 0.2s;
+
+}
+
+
+.profile-tab:hover {
+
+    background: #f9fafb;
+
+    color: #4f46e5;
+
+}
+
+
+.profile-tab.active {
+
+    background: #eef2ff;
+
+    color: #4338ca;
+
+    font-weight: bold;
+
+}
+
+
+.logout-button {
+
+    color: #dc2626;
+
+    margin-top: 10px;
+
+}
+
+
+.logout-button:hover {
+
+    background: #fef2f2;
+
+}
+
+
+
+/* =========================================
+   Content
+========================================= */
+
+.profile-content {
+
+    min-width: 0;
+
+}
+
+
+.profile-section {
+
+    display: none;
+
+}
+
+
+.profile-section.active {
+
+    display: block;
+
+}
+
+
+.content-card {
+
+    background: #ffffff;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+}
+
+
+.section-header {
+
+    padding-bottom: 20px;
+
+    margin-bottom: 25px;
+
+    border-bottom:
+        1px solid #f1f5f9;
+
+}
+
+
+.section-header h2 {
+
+    font-size: 20px;
+
+    margin-bottom: 5px;
+
+}
+
+
+.section-header p {
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+}
+
+
+
+/* =========================================
+   Messages
+========================================= */
+
+.messages-container {
+
+    margin-bottom: 20px;
+
+}
+
+
+.message {
+
+    padding: 12px 15px;
+
+    border-radius: 10px;
+
+    margin-bottom: 10px;
+
+    font-size: 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+
+.message-success {
+
+    background: #ecfdf5;
+
+    color: #047857;
+
+}
+
+
+.message-error {
+
+    background: #fef2f2;
+
+    color: #dc2626;
+
+}
+
+
+.message-warning {
+
+    background: #fffbeb;
+
+    color: #b45309;
+
+}
+
+
+.message-info {
+
+    background: #eff6ff;
+
+    color: #1d4ed8;
+
+}
+
+
+
+/* =========================================
+   Forms
+========================================= */
+
+.profile-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+
+.profile-form p {
+
+    margin: 0;
+
+}
+
+
+.profile-form label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 12px;
+
+    color: #374151;
+
+    font-weight: bold;
+
+}
+
+
+.profile-form input,
+.profile-form select,
+.profile-form textarea {
+
+    width: 100%;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 10px;
+
+    padding: 11px 12px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    font-size: 13px;
+
+    color: #111827;
+
+    transition: 0.2s;
+
+}
+
+
+.profile-form input:focus,
+.profile-form select:focus,
+.profile-form textarea:focus {
+
+    border-color: #6366f1;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(99, 102, 241, 0.10);
+
+}
+
+
+.profile-form textarea {
+
+    min-height: 100px;
+
+    resize: vertical;
+
+}
+
+
+.profile-form .helptext {
+
+    display: block;
+
+    margin-top: 4px;
+
+    color: #9ca3af;
+
+    font-size: 10px;
+
+}
+
+
+.profile-form ul.errorlist {
+
+    list-style: none;
+
+    padding: 0;
+
+    margin: 4px 0;
+
+    color: #dc2626;
+
+    font-size: 11px;
+
+}
+
+
+.primary-button {
+
+    align-self: flex-start;
+
+    border: none;
+
+    cursor: pointer;
+
+    padding: 11px 20px;
+
+    border-radius: 10px;
+
+    background: #4f46e5;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 12px;
+
+    transition: 0.2s;
+
+}
+
+
+.primary-button:hover {
+
+    background: #4338ca;
+
+}
+
+
+.secondary-button,
+.small-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 9px 15px;
+
+    border-radius: 9px;
+
+    background: #f3f4f6;
+
+    color: #374151;
+
+    font-size: 12px;
+
+    border: none;
+
+    cursor: pointer;
+
+}
+
+
+.secondary-button:hover,
+.small-button:hover {
+
+    background: #e5e7eb;
+
+}
+
+
+.form-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    align-items: center;
+
+}
+
+
+
+/* =========================================
+   Address
+========================================= */
+
+.addresses-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+}
+
+
+.address-card {
+
+    padding: 18px;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+}
+
+
+.address-card.default-address {
+
+    border-color: #818cf8;
+
+    background: #fafaff;
+
+}
+
+
+.address-card-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 14px;
+
+}
+
+
+.address-card-header h3 {
+
+    font-size: 14px;
+
+    margin-bottom: 5px;
+
+}
+
+
+.default-badge {
+
+    display: inline-block;
+
+    padding: 4px 8px;
+
+    border-radius: 20px;
+
+    background: #eef2ff;
+
+    color: #4338ca;
+
+    font-size: 10px;
+
+}
+
+
+.address-details {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    color: #4b5563;
+
+    font-size: 12px;
+
+}
+
+
+.address-text {
+
+    line-height: 2;
+
+}
+
+
+.form-divider {
+
+    height: 1px;
+
+    background: #f1f5f9;
+
+    margin: 30px 0;
+
+}
+
+
+.sub-section-header {
+
+    margin-bottom: 15px;
+
+}
+
+
+.sub-section-header h3 {
+
+    font-size: 15px;
+
+}
+
+
+
+/* =========================================
+   Empty
+========================================= */
+
+.empty-section {
+
+    text-align: center;
+
+    padding: 60px 20px;
+
+    background: #f9fafb;
+
+    border-radius: 15px;
+
+    color: #6b7280;
+
+}
+
+
+.empty-section .icon {
+
+    font-size: 45px;
+
+    margin-bottom: 12px;
+
+}
+
+
+.empty-section h3 {
+
+    color: #374151;
+
+    font-size: 15px;
+
+    margin-bottom: 7px;
+
+}
+
+
+.empty-section p {
+
+    font-size: 12px;
+
+}
+
+
+
+/* =========================================
+   Orders
+========================================= */
+
+.orders-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+}
+
+
+.order-card {
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+    background: #ffffff;
+
+    padding: 20px;
+
+    transition: 0.2s;
+
+}
+
+
+.order-card:hover {
+
+    box-shadow:
+        0 8px 20px
+        rgba(0, 0, 0, 0.06);
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.order-card-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    padding-bottom: 15px;
+
+    margin-bottom: 15px;
+
+    border-bottom:
+        1px solid #f1f5f9;
+
+}
+
+
+.order-number {
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    color: #111827;
+
+}
+
+
+.order-date {
+
+    margin-top: 4px;
+
+    font-size: 11px;
+
+    color: #6b7280;
+
+}
+
+
+.order-status-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+
+}
+
+
+.order-status-paid {
+
+    background: #ecfdf5;
+
+    color: #047857;
+
+}
+
+
+.order-status-pending {
+
+    background: #fffbeb;
+
+    color: #b45309;
+
+}
+
+
+.order-status-failed {
+
+    background: #fef2f2;
+
+    color: #dc2626;
+
+}
+
+
+.order-status-cancelled,
+.order-status-expired {
+
+    background: #f3f4f6;
+
+    color: #4b5563;
+
+}
+
+
+.order-info-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.order-info-item {
+
+    padding: 12px;
+
+    border-radius: 11px;
+
+    background: #f9fafb;
+
+}
+
+
+.order-info-label {
+
+    display: block;
+
+    font-size: 10px;
+
+    color: #6b7280;
+
+    margin-bottom: 3px;
+
+}
+
+
+.order-info-value {
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    color: #111827;
+
+}
+
+
+.payment-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 18px;
+
+    padding: 11px 13px;
+
+    border-radius: 10px;
+
+    font-size: 12px;
+
+}
+
+
+.payment-success {
+
+    background: #ecfdf5;
+
+    color: #047857;
+
+}
+
+
+.payment-pending {
+
+    background: #fffbeb;
+
+    color: #b45309;
+
+}
+
+
+.payment-failed {
+
+    background: #fef2f2;
+
+    color: #dc2626;
+
+}
+
+
+.payment-created {
+
+    background: #f3f4f6;
+
+    color: #4b5563;
+
+}
+
+
+.payment-cancelled {
+
+    background: #f3f4f6;
+
+    color: #4b5563;
+
+}
+
+
+.payment-none {
+
+    background: #f9fafb;
+
+    color: #6b7280;
+
+}
+
+
+.order-card-footer {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding-top: 15px;
+
+    border-top:
+        1px solid #f1f5f9;
+
+}
+
+
+.order-total {
+
+    font-size: 13px;
+
+    color: #374151;
+
+}
+
+
+.order-total strong {
+
+    color: #111827;
+
+    font-size: 16px;
+
+}
+
+
+.order-detail-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    background: #eef2ff;
+
+    color: #4338ca;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+
+}
+
+
+.order-detail-btn:hover {
+
+    background: #4f46e5;
+
+    color: white;
+
+}
+
+
+
+/* =========================================
+   Responsive
+========================================= */
+
+@media (max-width: 900px) {
+
+    .profile-layout {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .profile-sidebar {
+
+        position: static;
+
+    }
+
+
+    .profile-menu {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 5px;
+
+    }
+
+
+    .logout-button {
+
+        margin-top: 0;
+
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .profile-container {
+
+        margin-top: 20px;
+
+        padding: 0 12px;
+
+    }
+
+
+    .header-container {
+
+        padding: 14px 12px;
+
+    }
+
+
+    .site-logo {
+
+        font-size: 18px;
+
+    }
+
+
+    .home-button {
+
+        font-size: 10px;
+
+        padding: 8px 10px;
+
+    }
+
+
+    .content-card {
+
+        padding: 18px;
+
+    }
+
+
+    .profile-menu {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .order-card {
+
+        padding: 16px;
+
+    }
+
+
+    .order-card-header {
+
+        flex-direction: column;
+
+    }
+
+
+    .order-info-grid {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    .order-card-footer {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .order-detail-btn {
+
+        width: 100%;
+
+    }
+
+
+    .form-actions {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .primary-button,
+    .secondary-button {
+
+        width: 100%;
+
+    }
+
+}

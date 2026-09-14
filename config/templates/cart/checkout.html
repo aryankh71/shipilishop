@@ -1,0 +1,1155 @@
+{% load price_filters %}
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    تایید سفارش | شیپیلی شاپ
+</title>
+
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    body {
+        font-family: Tahoma, Arial, sans-serif;
+
+        background: #f6f7fb;
+
+        color: #1f2937;
+
+        line-height: 1.8;
+    }
+
+
+    a {
+        text-decoration: none;
+    }
+
+
+    button,
+    input {
+        font-family: inherit;
+    }
+
+
+    /* =========================
+       Header
+    ========================= */
+
+    .page-header {
+
+        background: #ffffff;
+
+        border-bottom: 1px solid #e5e7eb;
+
+        padding: 18px 0;
+
+        position: sticky;
+
+        top: 0;
+
+        z-index: 100;
+
+    }
+
+
+    .header-container {
+
+        max-width: 1100px;
+
+        margin: auto;
+
+        padding: 0 25px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 20px;
+
+    }
+
+
+    .logo {
+
+        font-size: 24px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+    }
+
+
+    .logo span {
+
+        color: #4f46e5;
+
+    }
+
+
+    .back-btn {
+
+        padding: 10px 18px;
+
+        border-radius: 10px;
+
+        background: #eef2ff;
+
+        color: #4338ca;
+
+        font-size: 14px;
+
+        transition: 0.2s;
+
+    }
+
+
+    .back-btn:hover {
+
+        background: #4f46e5;
+
+        color: white;
+
+    }
+
+
+    /* =========================
+       Container
+    ========================= */
+
+    .container {
+
+        max-width: 1100px;
+
+        margin: 45px auto;
+
+        padding: 0 25px;
+
+    }
+
+
+    /* =========================
+       Page Title
+    ========================= */
+
+    .page-title {
+
+        margin-bottom: 30px;
+
+    }
+
+
+    .page-title h1 {
+
+        font-size: 30px;
+
+        color: #111827;
+
+    }
+
+
+    .page-title p {
+
+        color: #6b7280;
+
+        font-size: 14px;
+
+        margin-top: 5px;
+
+    }
+
+
+    /* =========================
+       Checkout Layout
+    ========================= */
+
+    .checkout-layout {
+
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            320px;
+
+        gap: 25px;
+
+        align-items: start;
+
+    }
+
+
+    /* =========================
+       Left Sections
+    ========================= */
+
+    .checkout-sections {
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 18px;
+
+    }
+
+
+    /* =========================
+       Card
+    ========================= */
+
+    .checkout-card {
+
+        background: white;
+
+        border-radius: 18px;
+
+        padding: 22px;
+
+        box-shadow:
+            0 8px 25px
+            rgba(0, 0, 0, 0.06);
+
+    }
+
+
+    /* =========================
+       Section Title
+    ========================= */
+
+    .section-title {
+
+        font-size: 20px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+        margin-bottom: 20px;
+
+        padding-bottom: 15px;
+
+        border-bottom:
+            1px solid #f1f5f9;
+
+    }
+
+
+    /* =========================
+       Products
+    ========================= */
+
+    .checkout-products {
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 18px;
+
+    }
+
+
+    .checkout-product {
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 18px;
+
+        padding-bottom: 18px;
+
+        border-bottom:
+            1px solid #f1f5f9;
+
+    }
+
+
+    .checkout-product:last-child {
+
+        padding-bottom: 0;
+
+        border-bottom: none;
+
+    }
+
+
+    /* =========================
+       Product Information
+    ========================= */
+
+    .item-top {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: flex-start;
+
+        gap: 20px;
+
+    }
+
+
+    .product-name {
+
+        font-size: 18px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+    }
+
+
+    .product-subtitle {
+
+        font-size: 13px;
+
+        color: #6b7280;
+
+        margin-top: 5px;
+
+    }
+
+
+    /* =========================
+       Price Information
+    ========================= */
+
+    .price-info {
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 25px;
+
+        padding-top: 15px;
+
+        border-top:
+            1px solid #f1f5f9;
+
+    }
+
+
+    .price-box {
+
+        display: flex;
+
+        flex-direction: column;
+
+    }
+
+
+    .price-label {
+
+        font-size: 12px;
+
+        color: #6b7280;
+
+    }
+
+
+    .price-value {
+
+        font-size: 16px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+    }
+
+
+    .total-price {
+
+        color: #4f46e5;
+
+        font-size: 18px;
+
+    }
+
+
+    /* =========================
+       Address
+    ========================= */
+
+    .address-box {
+
+        background: #f9fafb;
+
+        border:
+            1px solid #f1f5f9;
+
+        border-radius: 12px;
+
+        padding: 18px;
+
+    }
+
+
+    .address-name {
+
+        font-size: 17px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .address-detail {
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 7px;
+
+        color: #6b7280;
+
+        font-size: 14px;
+
+    }
+
+
+    .address-city {
+
+        color: #374151;
+
+        font-weight: bold;
+
+    }
+
+
+    /* =========================
+       Back To Cart
+    ========================= */
+
+    .back-to-cart {
+
+        display: inline-block;
+
+        align-self: flex-start;
+
+        padding: 11px 17px;
+
+        border-radius: 10px;
+
+        background: #f3f4f6;
+
+        color: #374151;
+
+        font-size: 14px;
+
+        transition: 0.2s;
+
+    }
+
+
+    .back-to-cart:hover {
+
+        background: #e5e7eb;
+
+    }
+
+
+    /* =========================
+       Summary
+    ========================= */
+
+    .checkout-summary {
+
+        background: white;
+
+        border-radius: 18px;
+
+        padding: 25px;
+
+        box-shadow:
+            0 8px 25px
+            rgba(0, 0, 0, 0.06);
+
+        position: sticky;
+
+        top: 90px;
+
+    }
+
+
+    .summary-title {
+
+        font-size: 20px;
+
+        font-weight: bold;
+
+        color: #111827;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .summary-row {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        padding: 12px 0;
+
+        border-bottom:
+            1px solid #f1f5f9;
+
+        color: #6b7280;
+
+        font-size: 14px;
+
+    }
+
+
+    .summary-row strong {
+
+        color: #111827;
+
+    }
+
+
+    .summary-total {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        padding: 20px 0;
+
+        font-size: 17px;
+
+        font-weight: bold;
+
+        gap: 15px;
+
+    }
+
+
+    .summary-total .amount {
+
+        font-size: 22px;
+
+        color: #4f46e5;
+
+        white-space: nowrap;
+
+    }
+
+
+    /* =========================
+       Final Order Button
+    ========================= */
+
+    .final-order-form {
+
+        margin-top: 0;
+
+    }
+
+
+    .final-order-btn {
+
+        display: block;
+
+        width: 100%;
+
+        text-align: center;
+
+        padding: 14px;
+
+        border: none;
+
+        border-radius: 11px;
+
+        background: #4f46e5;
+
+        color: white;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        font-family: inherit;
+
+        font-size: 15px;
+
+        transition: 0.2s;
+
+    }
+
+
+    .final-order-btn:hover {
+
+        background: #4338ca;
+
+        transform:
+            translateY(-1px);
+
+    }
+
+
+    /* =========================
+       Checkout Note
+    ========================= */
+
+    .checkout-note {
+
+        margin-top: 15px;
+
+        padding: 12px 14px;
+
+        border-radius: 11px;
+
+        background: #f9fafb;
+
+        color: #6b7280;
+
+        font-size: 12px;
+
+        line-height: 1.9;
+
+        text-align: center;
+
+    }
+
+
+    /* =========================
+       Responsive
+    ========================= */
+
+    @media (max-width: 850px) {
+
+        .checkout-layout {
+
+            grid-template-columns:
+                1fr;
+
+        }
+
+
+        .checkout-summary {
+
+            position: static;
+
+        }
+
+    }
+
+
+    @media (max-width: 550px) {
+
+        .header-container {
+
+            padding: 0 15px;
+
+        }
+
+
+        .container {
+
+            padding: 0 15px;
+
+            margin-top: 30px;
+
+        }
+
+
+        .page-title h1 {
+
+            font-size: 25px;
+
+        }
+
+
+        .checkout-card,
+        .checkout-summary {
+
+            padding: 20px;
+
+        }
+
+
+        .price-info {
+
+            gap: 18px;
+
+        }
+
+
+        .summary-total {
+
+            align-items: flex-start;
+
+            flex-direction: column;
+
+        }
+
+
+        .summary-total .amount {
+
+            font-size: 20px;
+
+        }
+
+    }
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     Header
+========================= -->
+
+<header class="page-header">
+
+    <div class="header-container">
+
+
+        <!-- Logo -->
+
+        <a
+            href="{% url 'home' %}"
+            class="logo"
+        >
+
+            شیپیلی
+
+            <span>
+                شاپ
+            </span>
+
+        </a>
+
+
+        <!-- Back To Store -->
+
+        <a
+            href="{% url 'home' %}"
+            class="back-btn"
+        >
+
+            ← بازگشت به فروشگاه
+
+        </a>
+
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     Main
+========================= -->
+
+<main class="container">
+
+
+    <!-- =========================
+         Page Title
+    ========================= -->
+
+    <div class="page-title">
+
+        <h1>
+            🧾 تایید سفارش
+        </h1>
+
+
+        <p>
+
+            سفارش خود را بررسی کنید و سپس خریدتان را نهایی کنید.
+
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         Checkout Layout
+    ========================= -->
+
+    <div class="checkout-layout">
+
+
+        <!-- ==================================================
+             LEFT COLUMN
+        ================================================== -->
+
+        <div class="checkout-sections">
+
+
+            <!-- =========================
+                 Products
+            ========================= -->
+
+            <section class="checkout-card">
+
+
+                <h2 class="section-title">
+
+                    🛍️ محصولات سفارش
+
+                </h2>
+
+
+                <div class="checkout-products">
+
+
+                    {% for item in cart.items.all %}
+
+
+                        <div class="checkout-product">
+
+
+                            <!-- Product Information -->
+
+                            <div class="item-top">
+
+                                <div>
+
+                                    <h3 class="product-name">
+
+                                        {{ item.variant.sku_name }}
+
+                                    </h3>
+
+
+                                    <p class="product-subtitle">
+
+                                        محصول انتخاب‌شده شما
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Price Information -->
+
+                            <div class="price-info">
+
+
+                                <!-- Unit Price -->
+
+                                <div class="price-box">
+
+                                    <span class="price-label">
+
+                                        قیمت واحد
+
+                                    </span>
+
+
+                                    <span class="price-value">
+
+                                        {{ item.unit_price|price_format }}
+                                        تومان
+
+                                    </span>
+
+                                </div>
+
+
+                                <!-- Quantity -->
+
+                                <div class="price-box">
+
+                                    <span class="price-label">
+
+                                        تعداد
+
+                                    </span>
+
+
+                                    <span class="price-value">
+
+                                        {{ item.quantity }}
+
+                                    </span>
+
+                                </div>
+
+
+                                <!-- Total Price -->
+
+                                <div class="price-box">
+
+                                    <span class="price-label">
+
+                                        قیمت کل این محصول
+
+                                    </span>
+
+
+                                    <span
+                                        class="
+                                            price-value
+                                            total-price
+                                        "
+                                    >
+
+                                        {{ item.total_price|price_format }}
+                                        تومان
+
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =========================
+                 Address
+            ========================= -->
+
+            <section class="checkout-card">
+
+
+                <h2 class="section-title">
+
+                    📍 آدرس ارسال
+
+                </h2>
+
+
+                <div class="address-box">
+
+
+                    <div class="address-name">
+
+                        {{ address.receiver_name }}
+
+                    </div>
+
+
+                    <div class="address-detail">
+
+
+                        <div class="address-city">
+
+                            {{ address.city }}
+
+                        </div>
+
+
+                        <div>
+
+                            {{ address.address }}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =========================
+                 Back To Cart
+            ========================= -->
+
+            <a
+                href="{% url 'cart_detail' %}"
+                class="back-to-cart"
+            >
+
+                ← بازگشت به سبد خرید
+
+            </a>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             RIGHT COLUMN
+        ================================================== -->
+
+        <aside class="checkout-summary">
+
+
+            <h2 class="summary-title">
+
+                خلاصه سفارش
+
+            </h2>
+
+
+            <!-- =========================
+                 Total Items
+            ========================= -->
+
+            <div class="summary-row">
+
+                <span>
+
+                    تعداد کل محصولات
+
+                </span>
+
+
+                <strong>
+
+                    {{ cart.total_items }}
+
+                </strong>
+
+            </div>
+
+
+            <!-- =========================
+                 Products Price
+            ========================= -->
+
+            <div class="summary-row">
+
+                <span>
+
+                    مبلغ محصولات
+
+                </span>
+
+
+                <strong>
+
+                    {{ cart.total_price|price_format }}
+                    تومان
+
+                </strong>
+
+            </div>
+
+
+            <!-- =========================
+                 Payable Amount
+            ========================= -->
+
+            <div class="summary-total">
+
+                <span>
+
+                    مبلغ قابل پرداخت
+
+                </span>
+
+
+                <span class="amount">
+
+                    {{ cart.total_price|price_format }}
+                    تومان
+
+                </span>
+
+            </div>
+
+
+            <!-- =========================
+                 Final Order
+            ========================= -->
+
+            <form
+                method="post"
+                action="{% url 'create_order' %}"
+                class="final-order-form"
+            >
+
+                {% csrf_token %}
+
+
+                <button
+                    type="submit"
+                    class="final-order-btn"
+                >
+
+                    ثبت نهایی سفارش ←
+
+                </button>
+
+
+            </form>
+
+
+            <!-- =========================
+                 Note
+            ========================= -->
+
+            <div class="checkout-note">
+
+                با ثبت نهایی سفارش، در مرحله بعد
+                وارد فرآیند پرداخت خواهید شد.
+
+            </div>
+
+
+        </aside>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>
+
