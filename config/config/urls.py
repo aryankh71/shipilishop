@@ -36,6 +36,11 @@ urlpatterns = [
     path("cart/", include("apps.cart.urls")),
     path("order/", include("apps.order.urls")),
     path("", include("apps.shop.urls")),
+    path(
+        "adminpanel/",
+        include("apps.adminpanel.urls"),
+    ),
+
 
 ]
 if settings.DEBUG:

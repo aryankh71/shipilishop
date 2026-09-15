@@ -197,6 +197,10 @@ def register_view(request):
         or request.POST.get("next")
     )
 
+    if next_url in ["None", ""]:
+        
+        next_url = None
+
     if request.method == "POST":
 
         username = request.POST.get(

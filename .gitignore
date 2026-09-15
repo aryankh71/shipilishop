@@ -16,9 +16,7 @@ env/
 *.sqlite3
 db.sqlite3
 
-# Static / Media generated files
-staticfiles/
-media/
+
 
 # IDE
 .vscode/

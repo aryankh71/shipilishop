@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+
+
+<head>
+
+<meta charset="UTF-8">
+
+
+<title>
+    دسترسی فعال شد
+</title>
+
+
+<style>
+
+body {
+
+    font-family:Tahoma;
+    background:#f5f5f5;
+    padding:40px;
+
+}
+
+
+.container {
+
+    background:white;
+    max-width:700px;
+    margin:auto;
+    padding:30px;
+    border-radius:10px;
+
+}
+
+
+.url-box {
+
+    background:#eee;
+    padding:15px;
+    margin-top:20px;
+    word-break:break-all;
+
+}
+
+
+.success {
+
+    color:green;
+    font-size:20px;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+<div class="container">
+
+
+<div class="success">
+
+✓ دسترسی ادمین با موفقیت فعال شد
+
+</div>
+
+
+
+<hr>
+
+
+
+<p>
+
+کاربر:
+
+<b>
+{{ access.user.username }}
+</b>
+
+</p>
+
+
+
+<p>
+
+زمان ایجاد:
+
+{{ access.created_at }}
+
+</p>
+
+
+
+<h3>
+Dynamic Admin URL
+</h3>
+
+
+<div class="url-box">
+
+
+{{ dynamic_url }}
+
+
+</div>
+
+
+<p>
+
+این لینک را فقط به کاربر مربوطه ارسال کنید.
+
+</p>
+
+
+</div>
+
+
+
+</body>
+
+
+</html>

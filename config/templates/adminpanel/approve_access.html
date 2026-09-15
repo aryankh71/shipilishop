@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+    تایید دسترسی ادمین
+</title>
+
+
+<style>
+
+body {
+
+    font-family: Tahoma;
+    background:#f5f5f5;
+    padding:40px;
+
+}
+
+
+.container {
+
+    background:white;
+    max-width:600px;
+    margin:auto;
+    padding:30px;
+    border-radius:10px;
+
+}
+
+
+h2 {
+
+    margin-bottom:20px;
+
+}
+
+
+.info {
+
+    background:#eee;
+    padding:15px;
+    border-radius:8px;
+    margin-bottom:20px;
+
+}
+
+
+input {
+
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+
+}
+
+
+button {
+
+    margin-top:20px;
+    padding:12px 25px;
+    cursor:pointer;
+
+}
+
+
+.error {
+
+    color:red;
+    margin-bottom:15px;
+
+}
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h2>
+    تایید دسترسی Admin
+</h2>
+
+
+
+<div class="info">
+
+
+<p>
+<b>Username:</b>
+
+{{ admin_request.user.username }}
+
+</p>
+
+
+<p>
+<b>Email:</b>
+
+{{ admin_request.user.email }}
+
+</p>
+
+
+<p>
+<b>Phone:</b>
+
+{{ admin_request.user.phone_number }}
+
+</p>
+
+
+<p>
+<b>Status:</b>
+
+{{ admin_request.status }}
+
+</p>
+
+
+</div>
+
+
+
+{% if form.errors %}
+
+<div class="error">
+
+{{ form.errors }}
+
+</div>
+
+{% endif %}
+
+
+
+
+<form method="post">
+
+
+{% csrf_token %}
+
+
+
+<label>
+    Admin Token
+</label>
+
+
+{{ form.token }}
+
+
+
+<button type="submit">
+
+تایید دسترسی
+
+</button>
+
+
+</form>
+
+
+</div>
+
+
+
+</body>
+
+</html>

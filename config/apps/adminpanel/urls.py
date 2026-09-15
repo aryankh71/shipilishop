@@ -1,0 +1,48 @@
+from django.urls import path
+
+from . import views
+
+
+app_name = "adminpanel"
+
+print("ADMINPANEL URL LOADED")
+
+urlpatterns = [
+
+    path(
+        "",
+        views.dashboard,
+        name="dashboard",
+    ),
+
+    path(
+        "request/",
+        views.request_admin_access,
+        name="request_admin_access",
+    ),
+
+    path(
+        "request/verify/",
+        views.verify_admin_otp,
+        name="verify_admin_otp",
+    ),
+
+    path(
+        "access/<str:url_secret>/",
+        views.dynamic_admin_entry,
+        name="dynamic_admin_entry",
+    ),
+
+    path(
+    "approve/<int:request_id>/",
+    views.approve_admin_access,
+    name="approve_admin_access",
+    ),
+
+    path(
+        "logout/",
+        views.admin_logout,
+        name="admin_logout",
+    ),
+
+]

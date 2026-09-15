@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'apps.order',
     'apps.payment',
     "apps.core.apps.CoreConfig",
+    "apps.adminpanel",
 ]
 
 MIDDLEWARE = [
@@ -140,11 +141,17 @@ STATICFILES_DIRS = [
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
+# MAILERS = {
+#     'default': {
+#         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+#     },
+# }
+
+EMAIL_BACKEND = (
+    "apps.core.email_backend.EmailBackend"
+)
+
+DEFAULT_FROM_EMAIL = "noreply@shipilishop.com"
 
 
 AUTH_USER_MODEL = "account.User"
@@ -165,3 +172,8 @@ PAYMENT_GATEWAY_ENABLED = False
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+SITE_BASE_URL = config(
+    "SITE_BASE_URL",
+    default="http://127.0.0.1:8001",
+)

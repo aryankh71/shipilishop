@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>فعال‌سازی دسترسی ادمین</title>
+</head>
+
+<body>
+
+    <h1>فعال‌سازی دسترسی ادمین</h1>
+
+    {% if error %}
+        <p style="color:red;">
+            {{ error }}
+        </p>
+    {% endif %}
+
+    <p>
+        برای دریافت رمز یکبارمصرف روی دکمه زیر کلیک کنید.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <button type="submit">
+            ارسال OTP
+        </button>
+    </form>
+
+</body>
+
+</html>
