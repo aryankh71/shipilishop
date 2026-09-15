@@ -339,3 +339,69 @@ def approve_admin_access(request, request_id):
             "admin_request": admin_request,
         },
     )
+
+
+
+def dynamic_admin_entry(request, url_secret):
+    url_secret_hash = hash_secret(url_secret)
+
+    print("\n========== DYNAMIC ADMIN DEBUG ==========")
+    print("URL SECRET:", url_secret)
+    print("URL HASH:", url_secret_hash)
+
+    access = (
+        AdminAccess.objects
+        .filter(
+            url_secret_hash=url_secret_hash,
+        )
+        .select_related("user")
+        .first()
+    )
+
+    print("ACCESS:", access)
+
+    if access:
+        print("ACCESS ID:", access.id)
+        print("ACCESS STATUS:", access.status)
+        print("ACCESS USER:", access.user.username)
+
+    print("=========================================\n")
+
+    if not access:
+        return render(
+            request,
+            "adminpanel/access_denied.html",
+            {"error": "این لینک معتبر نیست یا دسترسی آن لغو شده است."},
+            status=403,
+        )
+
+    if access.status != AdminAccess.Status.ACTIVE:
+        return render(
+            request,
+            "adminpanel/access_denied.html",
+            {"error": "این دسترسی لغو شده است."},
+            status=403,
+        )
+
+    user = access.user
+
+    if user.role != user.Role.ADMIN:
+        return render(
+            request,
+            "adminpanel/access_denied.html",
+            {"error": "نقش این کاربر دیگر ADMIN نیست."},
+            status=403,
+        )
+
+    if request.user.is_authenticated and request.user.pk != user.pk:
+        return render(
+            request,
+            "adminpanel/access_denied.html",
+            {"error": "این لینک متعلق به کاربر دیگری است."},
+            status=403,
+        )
+
+    if not request.user.is_authenticated:
+        login(request, user)
+
+    return redirect("adminpanel:dashboard")
