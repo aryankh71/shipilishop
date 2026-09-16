@@ -1,538 +1,209 @@
-{% load static %}
+{% extends "adminpanel/base.html" %}
 
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
 
-<head>
-
-<meta charset="UTF-8">
-
-
-<title>
-    داشبورد مدیریت
-</title>
-
-
-
-<link 
-rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/dashicons@0.1.1/css/dashicons.min.css"
->
-
-
-
-<link 
-rel="stylesheet"
-href="{% static 'adminpanel/css/dashboard.css' %}"
->
-
-
-</head>
-
-
-
-<body>
-
-
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar">
-
-
-<div class="logo">
-
-    شیپیلی شاپ
-
-</div>
-
-
-
-<nav class="menu">
-
-
-<a href="#">
-
-<span class="dashicons dashicons-dashboard"></span>
-
-داشبورد
-
-</a>
-
-
-
-<a href="{% url 'adminpanel:products' %}">
-
-<span class="dashicons dashicons-products"></span>
-
-محصولات
-
-</a>
-
-
-<a href="#">
-
-<span class="dashicons dashicons-cart"></span>
-
-سفارش‌ها
-
-</a>
-
-
-
-<a href="#">
-
-<span class="dashicons dashicons-admin-users"></span>
-
-کاربران
-
-</a>
-
-
-
-<a href="#">
-
-<span class="dashicons dashicons-tag"></span>
-
-دسته‌بندی‌ها
-
-</a>
-
-
-
-<a href="#">
-
-<span class="dashicons dashicons-tickets-alt"></span>
-
-تخفیف‌ها
-
-</a>
-
-
-
-<a href="#">
-
-<span class="dashicons dashicons-chart-line"></span>
-
-گزارش‌ها
-
-</a>
-
-
-
-<a href="#">
-
-<span class="dashicons dashicons-admin-settings"></span>
-
-تنظیمات
-
-</a>
-
-
-
-<a href="{% url 'adminpanel:admin_logout' %}">
-
-<span class="dashicons dashicons-exit"></span>
-
-خروج
-
-</a>
-
-
-
-</nav>
-
-
-</aside>
-
-
-
-
-
-<!-- MAIN -->
-
-<main class="main">
-
-
-
-
-
-<!-- HEADER -->
-
-
-<header class="header">
-
-
-<div>
-
-
-<h1>
-
+{% block title %}
 داشبورد مدیریت
-
-</h1>
-
-
-<p>
-
-خوش آمدید
-{{ request.user.first_name }}
-
-</p>
-
-
-</div>
+{% endblock %}
 
 
 
-
-<div class="user-box">
-
-
-<div class="avatar">
-
-<span class="dashicons dashicons-admin-users"></span>
-
-</div>
-
-
-{{ request.user.username }}
-
-
-</div>
-
-
-</header>
+{% block page_title %}
+داشبورد مدیریت
+{% endblock %}
 
 
 
-
-
-
+{% block content %}
 
 
 <!-- STAT CARDS -->
 
-
 <section class="cards">
 
 
+    <div class="card">
 
-<div class="card">
+        <div class="card-title">
+            محصولات
+        </div>
 
-<div class="card-title">
+        <div class="card-number">
+            {{ total_products|default:"0" }}
+        </div>
 
-محصولات
+    </div>
 
-</div>
 
 
-<div class="card-number">
+    <div class="card">
 
-{{ total_products|default:"0" }}
+        <div class="card-title">
+            محصولات فعال
+        </div>
 
-</div>
+        <div class="card-number">
+            {{ active_products|default:"0" }}
+        </div>
 
+    </div>
 
-</div>
 
 
+    <div class="card">
 
+        <div class="card-title">
+            تنوع کالا (SKU)
+        </div>
 
+        <div class="card-number">
+            {{ total_variants|default:"0" }}
+        </div>
 
+    </div>
 
-<div class="card">
 
-<div class="card-title">
 
-محصولات فعال
+    <div class="card">
 
-</div>
+        <div class="card-title">
+            موجودی کم
+        </div>
 
+        <div class="card-number">
+            {{ low_stock_products|default:"0" }}
+        </div>
 
-<div class="card-number">
+    </div>
 
-{{ active_products|default:"0" }}
 
-</div>
 
+    <div class="card">
 
-</div>
+        <div class="card-title">
+            ناموجود
+        </div>
 
+        <div class="card-number">
+            {{ out_of_stock|default:"0" }}
+        </div>
 
+    </div>
 
 
 
+    <div class="card">
 
+        <div class="card-title">
+            دسته‌بندی‌ها
+        </div>
 
-<div class="card">
+        <div class="card-number">
+            {{ total_categories|default:"0" }}
+        </div>
 
-<div class="card-title">
+    </div>
 
-تنوع کالا (SKU)
 
-</div>
 
+    <div class="card">
 
-<div class="card-number">
+        <div class="card-title">
+            برندها
+        </div>
 
-{{ total_variants|default:"0" }}
+        <div class="card-number">
+            {{ total_brands|default:"0" }}
+        </div>
 
-</div>
+    </div>
 
 
-</div>
 
+    <div class="card">
 
+        <div class="card-title">
+            کل سفارش‌ها
+        </div>
 
+        <div class="card-number">
+            {{ total_orders|default:"0" }}
+        </div>
 
+    </div>
 
 
 
-<div class="card">
+    <div class="card">
 
-<div class="card-title">
+        <div class="card-title">
+            سفارش‌های امروز
+        </div>
 
-موجودی کم
+        <div class="card-number">
+            {{ today_orders|default:"0" }}
+        </div>
 
-</div>
+    </div>
 
 
-<div class="card-number">
 
-{{ low_stock_products|default:"0" }}
+    <div class="card">
 
-</div>
+        <div class="card-title">
+            در انتظار پرداخت سفارش
+        </div>
 
+        <div class="card-number">
+            {{ pending_orders|default:"0" }}
+        </div>
 
-</div>
+    </div>
 
 
 
+    <div class="card">
 
+        <div class="card-title">
+            پرداخت موفق
+        </div>
 
+        <div class="card-number">
+            {{ successful_payments|default:"0" }}
+        </div>
 
+    </div>
 
-<div class="card">
 
-<div class="card-title">
 
-ناموجود
+    <div class="card">
 
-</div>
+        <div class="card-title">
+            پرداخت ناموفق
+        </div>
 
+        <div class="card-number">
+            {{ failed_payments|default:"0" }}
+        </div>
 
-<div class="card-number">
+    </div>
 
-{{ out_of_stock|default:"0" }}
 
-</div>
 
+    <div class="card">
 
-</div>
+        <div class="card-title">
+            فروش کل
+        </div>
 
+        <div class="card-number">
+            {{ total_sales|default:"0" }}
+            تومان
+        </div>
 
-
-
-
-
-
-<div class="card">
-
-<div class="card-title">
-
-دسته‌بندی‌ها
-
-</div>
-
-
-<div class="card-number">
-
-{{ total_categories|default:"0" }}
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-<div class="card-title">
-
-برندها
-
-</div>
-
-
-<div class="card-number">
-
-{{ total_brands|default:"0" }}
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-<div class="card-title">
-
-کل سفارش‌ها
-
-</div>
-
-
-<div class="card-number">
-
-{{ total_orders|default:"0" }}
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-<div class="card-title">
-
-سفارش‌های امروز
-
-</div>
-
-
-<div class="card-number">
-
-{{ today_orders|default:"0" }}
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-<div class="card-title">
-
-در انتظار پرداخت سفارش
-
-</div>
-
-
-<div class="card-number">
-
-{{ pending_orders|default:"0" }}
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-<div class="card-title">
-
-پرداخت موفق
-
-</div>
-
-
-<div class="card-number">
-
-{{ successful_payments|default:"0" }}
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-<div class="card-title">
-
-پرداخت ناموفق
-
-</div>
-
-
-<div class="card-number">
-
-{{ failed_payments|default:"0" }}
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-<div class="card-title">
-
-فروش کل
-
-</div>
-
-
-<div class="card-number">
-
-{{ total_sales|default:"0" }}
-
-تومان
-
-</div>
-
-
-</div>
-
+    </div>
 
 
 </section>
-
-
-
-
-
 
 
 
@@ -544,131 +215,108 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 <section class="panel">
 
 
-<div class="panel-title">
+    <div class="panel-title">
+        آخرین سفارش‌ها
+    </div>
 
-آخرین سفارش‌ها
 
-</div>
 
+    <table>
 
 
+        <tr>
 
-<table>
+            <th>
+                شماره سفارش
+            </th>
 
 
-<tr>
+            <th>
+                مشتری
+            </th>
 
-<th>
-شماره سفارش
-</th>
 
+            <th>
+                تعداد کالا
+            </th>
 
-<th>
-مشتری
-</th>
 
+            <th>
+                مبلغ
+            </th>
 
-<th>
-تعداد کالا
-</th>
 
+            <th>
+                وضعیت
+            </th>
 
-<th>
-مبلغ
-</th>
+        </tr>
 
 
-<th>
-وضعیت
-</th>
 
 
-</tr>
+        {% for order in latest_orders %}
 
 
+        <tr>
 
 
+            <td>
+                #{{ order.id }}
+            </td>
 
-{% for order in latest_orders %}
 
 
-<tr>
+            <td>
+                {{ order.user.username }}
+            </td>
 
 
-<td>
 
-#{{ order.id }}
+            <td>
+                {{ order.total_items }}
+            </td>
 
-</td>
 
 
+            <td>
+                {{ order.total_price|floatformat:0 }}
+                تومان
+            </td>
 
-<td>
 
-{{ order.user.username }}
 
-</td>
+            <td>
 
+                <span class="status">
+                    {{ order.get_status_display }}
+                </span>
 
+            </td>
 
-<td>
 
-{{ order.total_items }}
+        </tr>
 
-</td>
 
 
+        {% empty %}
 
-<td>
 
-{{ order.total_price|floatformat:0 }}
+        <tr>
 
-تومان
+            <td colspan="5">
+                هنوز سفارشی ثبت نشده است.
+            </td>
 
-</td>
+        </tr>
 
 
 
+        {% endfor %}
 
-<td>
 
 
-<span class="status">
-
-{{ order.get_status_display }}
-
-</span>
-
-
-</td>
-
-
-
-</tr>
-
-
-
-
-{% empty %}
-
-
-<tr>
-
-<td colspan="5">
-
-هنوز سفارشی ثبت نشده است.
-
-</td>
-
-</tr>
-
-
-{% endfor %}
-
-
-
-
-</table>
+    </table>
 
 
 </section>
@@ -679,70 +327,50 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 
 
-
-
-<!-- STATISTICS PANEL -->
+<!-- PAYMENT STATISTICS -->
 
 
 <section class="panel">
 
 
-<div class="panel-title">
-
-آمار سفارش و پرداخت
-
-</div>
+    <div class="panel-title">
+        آمار سفارش و پرداخت
+    </div>
 
 
 
-
-<p>
-
-سفارش‌های پرداخت شده:
-
-{{ paid_orders|default:"0" }}
-
-</p>
+    <p>
+        سفارش‌های پرداخت شده:
+        {{ paid_orders|default:"0" }}
+    </p>
 
 
 
-<p>
-
-سفارش‌های لغو شده:
-
-{{ cancelled_orders|default:"0" }}
-
-</p>
+    <p>
+        سفارش‌های لغو شده:
+        {{ cancelled_orders|default:"0" }}
+    </p>
 
 
 
-<p>
-
-پرداخت‌های موفق:
-
-{{ successful_payments|default:"0" }}
-
-</p>
+    <p>
+        پرداخت‌های موفق:
+        {{ successful_payments|default:"0" }}
+    </p>
 
 
 
-<p>
-
-پرداخت‌های ناموفق:
-
-{{ failed_payments|default:"0" }}
-
-</p>
+    <p>
+        پرداخت‌های ناموفق:
+        {{ failed_payments|default:"0" }}
+    </p>
 
 
 
-<p>
-
-تراکنش‌های در انتظار:
-
-{{ pending_payments|default:"0" }}
-
-</p>
+    <p>
+        تراکنش‌های در انتظار:
+        {{ pending_payments|default:"0" }}
+    </p>
 
 
 
@@ -750,13 +378,4 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 
 
-
-
-
-</main>
-
-
-
-</body>
-
-</html>
+{% endblock %}
