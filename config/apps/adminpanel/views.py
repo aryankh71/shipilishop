@@ -14,7 +14,7 @@ from .services import (
     verify_admin_otp as verify_otp_service,
 )
 from apps.shop.models import Product
-from .dashboard.controller import dashboard
+from .dashboard.controllers.dashboard import dashboard
 from .dashboard.controllers.products import product_list
 
 # =========================================================

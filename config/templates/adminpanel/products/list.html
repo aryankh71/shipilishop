@@ -1,99 +1,57 @@
-<!DOCTYPE html>
+{% extends "adminpanel/base.html" %}
 
-<html lang="fa" dir="rtl">
 
-<head>
 
-<meta charset="UTF-8">
+{% block title %}
 
-<title>
 محصولات
-</title>
+
+{% endblock %}
 
 
-<style>
-
-body {
-
-font-family:tahoma;
-background:#f1f5f9;
-
-}
 
 
-.container {
 
-padding:30px;
+{% block page_title %}
 
-}
+محصولات
 
-
-table {
-
-width:100%;
-background:white;
-border-collapse:collapse;
-border-radius:10px;
-
-}
+{% endblock %}
 
 
-th,td {
-
-padding:15px;
-border-bottom:1px solid #ddd;
-text-align:right;
-
-}
 
 
-th {
-
-background:#f8fafc;
-
-}
 
 
-.active {
+{% block content %}
 
-color:green;
-
-}
-
-
-.inactive {
-
-color:red;
-
-}
-
-
-</style>
-
-
-</head>
-
-
-<body>
 
 
 <div class="container">
 
 
+
 <h1>
+
 لیست محصولات
+
 </h1>
+
+
 
 
 
 <table>
 
 
+
 <tr>
+
 
 <th>
 نام محصول
 </th>
+
 
 
 <th>
@@ -101,9 +59,11 @@ color:red;
 </th>
 
 
+
 <th>
 برند
 </th>
+
 
 
 <th>
@@ -111,9 +71,11 @@ SKU
 </th>
 
 
+
 <th>
 وضعیت
 </th>
+
 
 
 <th>
@@ -125,10 +87,14 @@ SKU
 
 
 
+
+
 {% for product in products %}
 
 
+
 <tr>
+
 
 
 <td>
@@ -136,6 +102,7 @@ SKU
 {{ product.display_name|default:product.name }}
 
 </td>
+
 
 
 
@@ -147,11 +114,13 @@ SKU
 
 
 
+
 <td>
 
 {{ product.brand }}
 
 </td>
+
 
 
 
@@ -163,25 +132,36 @@ SKU
 
 
 
+
 <td>
+
 
 
 {% if product.is_active %}
 
 <span class="active">
+
 فعال
+
 </span>
+
 
 {% else %}
 
+
 <span class="inactive">
+
 غیرفعال
+
 </span>
+
 
 {% endif %}
 
 
+
 </td>
+
 
 
 
@@ -193,10 +173,14 @@ SKU
 
 
 
+
 </tr>
 
 
+
+
 {% empty %}
+
 
 
 <tr>
@@ -210,16 +194,21 @@ SKU
 </tr>
 
 
+
 {% endfor %}
+
+
 
 
 
 </table>
 
 
+
+
 </div>
 
 
-</body>
 
-</html>
+
+{% endblock %}

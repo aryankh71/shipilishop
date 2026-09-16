@@ -1,0 +1,250 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+
+<title>
+
+{% block title %}
+
+پنل مدیریت
+
+{% endblock %}
+
+</title>
+
+
+
+<link 
+rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/dashicons@0.1.1/css/dashicons.min.css"
+>
+
+
+<link 
+rel="stylesheet"
+href="{% static 'adminpanel/css/dashboard.css' %}"
+>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+
+<div class="logo">
+
+    شیپیلی شاپ
+
+</div>
+
+
+
+<nav class="menu">
+
+
+
+<a href="{% url 'adminpanel:dashboard' %}">
+
+<span class="dashicons dashicons-dashboard"></span>
+
+داشبورد
+
+</a>
+
+
+
+
+<a href="{% url 'adminpanel:products' %}">
+
+<span class="dashicons dashicons-products"></span>
+
+محصولات
+
+</a>
+
+
+
+
+<a href="#">
+
+<span class="dashicons dashicons-cart"></span>
+
+سفارش‌ها
+
+</a>
+
+
+
+
+<a href="#">
+
+<span class="dashicons dashicons-admin-users"></span>
+
+کاربران
+
+</a>
+
+
+
+
+<a href="#">
+
+<span class="dashicons dashicons-tag"></span>
+
+دسته‌بندی‌ها
+
+</a>
+
+
+
+
+<a href="#">
+
+<span class="dashicons dashicons-tickets-alt"></span>
+
+تخفیف‌ها
+
+</a>
+
+
+
+
+<a href="#">
+
+<span class="dashicons dashicons-chart-line"></span>
+
+گزارش‌ها
+
+</a>
+
+
+
+
+<a href="#">
+
+<span class="dashicons dashicons-admin-settings"></span>
+
+تنظیمات
+
+</a>
+
+
+
+
+<a href="{% url 'adminpanel:admin_logout' %}">
+
+<span class="dashicons dashicons-exit"></span>
+
+خروج
+
+</a>
+
+
+
+</nav>
+
+
+</aside>
+
+
+
+
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+
+
+
+
+<!-- HEADER -->
+
+
+<header class="header">
+
+
+<div>
+
+
+<h1>
+
+{% block page_title %}
+
+داشبورد مدیریت
+
+{% endblock %}
+
+</h1>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<div class="user-box">
+
+
+<div class="avatar">
+
+<span class="dashicons dashicons-admin-users"></span>
+
+</div>
+
+
+{{ request.user.username }}
+
+
+</div>
+
+
+
+</header>
+
+
+
+
+
+
+
+<!-- PAGE CONTENT -->
+
+{% block content %}
+
+{% endblock %}
+
+
+
+
+
+
+
+</main>
+
+
+
+</body>
+
+</html>

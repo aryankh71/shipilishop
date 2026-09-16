@@ -1,10 +1,10 @@
 from django.shortcuts import render
 
-from ..decorators import admin_required
+from ...decorators import admin_required
 
-from .modules.products import get_product_stats
-from .modules.payments import get_payment_stats
-from .modules.orders import (
+from ..modules.products import get_product_stats
+from ..modules.payments import get_payment_stats
+from ..modules.orders import (
     get_order_stats,
     get_latest_orders
 )
@@ -12,7 +12,6 @@ from .modules.orders import (
 
 @admin_required
 def dashboard(request):
-    print("DASHBOARD VIEW RUNNING")
 
 
     context = {
@@ -34,7 +33,6 @@ def dashboard(request):
     }
 
 
-    print("khorooji=====>",context)
     return render(
         request,
         "adminpanel/dashboard.html",
