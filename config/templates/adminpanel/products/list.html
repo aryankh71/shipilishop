@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+محصولات
+</title>
+
+
+<style>
+
+body {
+
+font-family:tahoma;
+background:#f1f5f9;
+
+}
+
+
+.container {
+
+padding:30px;
+
+}
+
+
+table {
+
+width:100%;
+background:white;
+border-collapse:collapse;
+border-radius:10px;
+
+}
+
+
+th,td {
+
+padding:15px;
+border-bottom:1px solid #ddd;
+text-align:right;
+
+}
+
+
+th {
+
+background:#f8fafc;
+
+}
+
+
+.active {
+
+color:green;
+
+}
+
+
+.inactive {
+
+color:red;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>
+لیست محصولات
+</h1>
+
+
+
+<table>
+
+
+<tr>
+
+<th>
+نام محصول
+</th>
+
+
+<th>
+دسته‌بندی
+</th>
+
+
+<th>
+برند
+</th>
+
+
+<th>
+SKU
+</th>
+
+
+<th>
+وضعیت
+</th>
+
+
+<th>
+تاریخ ایجاد
+</th>
+
+
+</tr>
+
+
+
+{% for product in products %}
+
+
+<tr>
+
+
+<td>
+
+{{ product.display_name|default:product.name }}
+
+</td>
+
+
+
+<td>
+
+{{ product.category }}
+
+</td>
+
+
+
+<td>
+
+{{ product.brand }}
+
+</td>
+
+
+
+<td>
+
+{{ product.variants.count }}
+
+</td>
+
+
+
+<td>
+
+
+{% if product.is_active %}
+
+<span class="active">
+فعال
+</span>
+
+{% else %}
+
+<span class="inactive">
+غیرفعال
+</span>
+
+{% endif %}
+
+
+</td>
+
+
+
+<td>
+
+{{ product.created_at|date:"Y/m/d" }}
+
+</td>
+
+
+
+</tr>
+
+
+{% empty %}
+
+
+<tr>
+
+<td colspan="6">
+
+محصولی وجود ندارد
+
+</td>
+
+</tr>
+
+
+{% endfor %}
+
+
+
+</table>
+
+
+</div>
+
+
+</body>
+
+</html>

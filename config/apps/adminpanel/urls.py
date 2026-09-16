@@ -1,5 +1,4 @@
 from django.urls import path
-
 from . import views
 
 
@@ -44,5 +43,11 @@ urlpatterns = [
         views.admin_logout,
         name="admin_logout",
     ),
+
+    path(
+    "products/",
+    views.product_list,
+    name="products"
+    )
 
 ]

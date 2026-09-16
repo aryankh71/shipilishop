@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import AdminTokenApprovalForm
 from django.contrib.admin.views.decorators import staff_member_required
 from .services import approve_admin_request
-
-from .decorators import admin_required
+from apps.shop.models import Product
+from apps.adminpanel.decorators import admin_required
 from .models import AdminAccess, AdminRequest
 from .services import (
     create_admin_request,
@@ -13,7 +13,9 @@ from .services import (
     issue_admin_token,
     verify_admin_otp as verify_otp_service,
 )
-
+from apps.shop.models import Product
+from .dashboard.controller import dashboard
+from .dashboard.controllers.products import product_list
 
 # =========================================================
 # Request Admin Access
@@ -236,16 +238,16 @@ def dynamic_admin_entry(request, url_secret):
 # Dashboard
 # =========================================================
 
-@admin_required
-def dashboard(request):
+# @admin_required
+# def dashboard(request):
 
-    return render(
-        request,
-        "adminpanel/dashboard.html",
-        {
-            "admin_access": request.admin_access,
-        },
-    )
+#     return render(
+#         request,
+#         "adminpanel/dashboard.html",
+#         {
+#             "admin_access": request.admin_access,
+#         },
+#     )
 
 
 # =========================================================
@@ -405,3 +407,4 @@ def dynamic_admin_entry(request, url_secret):
         login(request, user)
 
     return redirect("adminpanel:dashboard")
+
