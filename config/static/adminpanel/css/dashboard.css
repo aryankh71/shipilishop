@@ -281,11 +281,9 @@ body {
 
 .panel-title {
 
-    font-size:18px;
+    font-size:15px;
 
     font-weight:bold;
-
-    margin-bottom:20px;
 
 }
 
@@ -422,4 +420,586 @@ th {
 
 .inactive {
     color:red;
+}
+
+/* =====================
+        MESSAGES
+===================== */
+
+
+.toast-container {
+
+    position: fixed;
+
+    top: 25px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 9999;
+
+}
+
+
+
+.toast-message {
+
+    min-width: 350px;
+
+    padding: 15px 25px;
+
+    border-radius: 10px;
+
+    color:white;
+
+    font-size:15px;
+
+    text-align:center;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,.15);
+
+
+    animation:
+
+    toast-show .3s ease,
+
+    toast-hide .5s ease 3.5s forwards;
+
+}
+
+
+
+/* موفقیت */
+
+.toast-message.success {
+
+    background:#2563eb;
+
+}
+
+
+
+/* خطا */
+
+.toast-message.error {
+
+    background:#dc2626;
+
+}
+
+
+
+/* هشدار */
+
+.toast-message.warning {
+
+    background:#d97706;
+
+}
+
+
+
+
+@keyframes toast-show {
+
+
+    from {
+
+        opacity:0;
+
+        transform:translateY(-20px);
+
+    }
+
+
+    to {
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+
+@keyframes toast-hide {
+
+
+    from {
+
+        opacity:1;
+
+    }
+
+
+    to {
+
+        opacity:0;
+
+        visibility:hidden;
+
+    }
+
+}
+
+/* =====================
+        PRODUCT EDIT
+===================== */
+
+
+.product-edit {
+
+    padding:30px;
+
+}
+
+
+/* PRODUCT HEADER */
+
+.product-header {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+.product-header h2 {
+
+    margin:0;
+
+    font-size:22px;
+
+}
+
+
+
+.product-name {
+
+    margin-top:10px;
+
+    color:#64748b;
+
+    font-size:15px;
+
+}
+
+
+
+
+.product-status span {
+
+    padding:8px 18px;
+
+    border-radius:20px;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+}
+
+
+
+
+/* FORM */
+
+.form-grid {
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:20px;
+
+}
+
+
+
+.form-group {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+
+
+.form-group label {
+
+    font-size:12px;
+
+    color:#475569;
+
+}
+
+
+
+.form-control {
+
+    width:100%;
+
+    max-width:420px;
+
+    height:38px;
+
+    padding:7px 10px;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:6px;
+
+    font-size:13px;
+
+}
+
+
+
+.form-control:focus {
+
+    outline:none;
+
+    border-color:#2271b1;
+
+    box-shadow:
+    0 0 0 3px rgba(34,113,177,.15);
+
+}
+
+
+
+.full {
+
+    margin-top:20px;
+
+}
+
+
+
+/* IMAGE */
+
+.current-image {
+
+    margin-bottom:15px;
+
+}
+
+
+.current-image img {
+
+    width:90px;
+
+    height:90px;
+
+    object-fit:cover;
+
+    border-radius:8px;
+
+}
+
+
+
+
+
+/* CHECKBOX */
+
+
+.checkbox-group {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-top:20px;
+
+}
+
+
+
+
+.form-check-input {
+
+    width:18px;
+
+    height:18px;
+
+}
+
+
+
+
+
+
+/* VARIANTS TABLE */
+
+
+.variant-table {
+
+    overflow:hidden;
+
+    border-radius:10px;
+
+}
+
+
+
+.variant-table input,
+.variant-table select {
+
+
+    min-width:100px;
+
+    padding:8px;
+
+    border:
+
+    1px solid #cbd5e1;
+
+    border-radius:6px;
+
+
+}
+
+
+
+.variant-table th {
+
+
+    font-size:13px;
+
+}
+
+
+
+.variant-table td {
+
+
+    vertical-align:middle;
+
+}
+
+
+
+
+
+/* BUTTONS */
+
+
+.save-box {
+
+
+    display:flex;
+
+    justify-content:flex-start;
+
+    gap:15px;
+
+    margin-top:25px;
+
+
+}
+
+
+
+.save-button {
+
+
+    background:#2271b1;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 30px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    transition:.2s;
+
+}
+
+
+
+.save-button:hover {
+
+
+    background:#135e96;
+
+}
+
+
+
+
+
+.cancel-button {
+
+
+    background:#e2e8f0;
+
+    color:#334155;
+
+    padding:12px 30px;
+
+    border-radius:8px;
+
+    text-decoration:none;
+
+    font-size:15px;
+
+}
+
+
+
+
+
+/* ERRORS */
+
+
+.form-error-box {
+
+
+    background:#fee2e2;
+
+    color:#991b1b;
+
+    padding:15px;
+
+    border-radius:10px;
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+.field-error {
+
+
+    color:#dc2626;
+
+    font-size:13px;
+
+}
+
+
+
+
+
+/* RESPONSIVE */
+
+
+@media(max-width:900px){
+
+
+.form-grid {
+
+    grid-template-columns:1fr;
+
+}
+
+
+.product-header {
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:15px;
+
+}
+
+
+.variant-table {
+
+    display:block;
+
+    overflow-x:auto;
+
+}
+
+
+}
+
+textarea.form-control {
+
+    height:auto;
+
+    min-height:120px;
+
+}
+
+
+/* =====================
+ PRODUCT DESCRIPTION EDITOR
+===================== */
+
+
+.description-panel {
+
+    margin-top:25px;
+
+}
+
+
+
+.product-editor {
+
+    width:100%;
+
+    min-height:300px;
+
+    resize:vertical;
+
+    padding:15px;
+
+    font-size:15px;
+
+    line-height:2;
+
+    border:1px solid #d1d5db;
+
+    border-radius:8px;
+
+    background:#fff;
+
+}
+
+
+
+.product-editor:focus {
+
+    outline:none;
+
+    border-color:#2271b1;
+
+    box-shadow:
+    0 0 0 3px rgba(34,113,177,.15);
+
+}
+
+
+
+.editor-wrapper {
+
+    margin-top:15px;
+
 }

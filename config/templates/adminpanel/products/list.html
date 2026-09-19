@@ -67,7 +67,7 @@
 
 
 <th>
-SKU
+تنوع کالا
 </th>
 
 
@@ -83,6 +83,10 @@ SKU
 </th>
 
 
+<th>
+عملیات
+</th>
+
 </tr>
 
 
@@ -92,110 +96,86 @@ SKU
 {% for product in products %}
 
 
-
 <tr>
 
 
-
 <td>
-
 {{ product.display_name|default:product.name }}
-
 </td>
 
 
 
-
 <td>
-
 {{ product.category }}
-
 </td>
 
 
 
-
 <td>
-
 {{ product.brand }}
-
 </td>
 
 
 
-
 <td>
-
-{{ product.variants.count }}
-
+{{ product.variant_count }}
 </td>
 
 
 
-
 <td>
-
-
 
 {% if product.is_active %}
 
 <span class="active">
-
 فعال
-
 </span>
-
 
 {% else %}
 
-
 <span class="inactive">
-
 غیرفعال
-
 </span>
-
 
 {% endif %}
 
-
-
 </td>
 
+
+
+<td>
+{{ product.created_at|date:"Y/m/d" }}
+</td>
 
 
 
 <td>
 
-{{ product.created_at|date:"Y/m/d" }}
+<a href="{% url 'adminpanel:product_edit' product.id %}">
+ویرایش
+</a>
 
 </td>
 
 
 
-
 </tr>
-
-
 
 
 {% empty %}
 
 
-
 <tr>
 
-<td colspan="6">
-
+<td colspan="7">
 محصولی وجود ندارد
-
 </td>
 
 </tr>
 
 
-
 {% endfor %}
+
 
 
 

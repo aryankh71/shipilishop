@@ -4,7 +4,6 @@ from . import views
 
 app_name = "adminpanel"
 
-print("ADMINPANEL URL LOADED")
 
 urlpatterns = [
 
@@ -48,6 +47,13 @@ urlpatterns = [
     "products/",
     views.product_list,
     name="products"
-    )
+    ),
+
+
+    path(
+    "products/<int:product_id>/edit/",
+    views.product_edit,
+    name="product_edit"
+    ),
 
 ]

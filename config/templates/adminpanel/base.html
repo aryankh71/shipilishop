@@ -2,8 +2,9 @@
 
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
+<link rel="stylesheet" href="{% static 'css/fonts.css' %}">
 <head>
+
 
 <meta charset="UTF-8">
 
@@ -225,7 +226,23 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 
 
+{% if messages %}
 
+<div class="toast-container">
+
+    {% for message in messages %}
+
+    <div class="toast-message {{ message.tags }}">
+
+        {{ message }}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
 
 
 

@@ -15,7 +15,10 @@ from .services import (
 )
 from apps.shop.models import Product
 from .dashboard.controllers.dashboard import dashboard
-from .dashboard.controllers.products import product_list
+from .dashboard.controllers.products import (
+    product_list,
+    product_edit,
+)
 
 # =========================================================
 # Request Admin Access

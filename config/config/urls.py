@@ -29,6 +29,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path(
+        "ckeditor5/",
+        include(
+            "django_ckeditor_5.urls"
+        ),
+    ),
     path("account/", include("apps.account.urls")),
     path("payment/", include("apps.payment.urls")),
     path("api/account/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),

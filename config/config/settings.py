@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'apps.payment',
     "apps.core.apps.CoreConfig",
     "apps.adminpanel",
+    "django_ckeditor_5",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -177,3 +179,71 @@ SITE_BASE_URL = config(
     "SITE_BASE_URL",
     default="http://127.0.0.1:8001",
 )
+
+
+CKEDITOR_5_CONFIGS = {
+
+    "default": {
+
+        "toolbar": [
+
+            "heading",
+            "|",
+
+             "fontFamily",
+
+            "|",
+
+            "bold",
+            "italic",
+            "underline",
+
+            "|",
+
+            "bulletedList",
+            "numberedList",
+
+            "|",
+
+            "link",
+            "imageUpload",
+            "insertTable",
+
+            "|",
+
+            "undo",
+            "redo",
+
+        ],
+
+        "fontFamily": {
+            "options": [
+
+                "default",
+                "Arial",
+                "Tahoma",
+                "Verdana",
+                "Georgia",
+                "Times New Roman",
+                "B Nazanin",
+                "B Titr",
+
+            ]
+        },
+
+        "language": "fa",
+
+    }
+
+}
+
+CKEDITOR_5_FILE_STORAGE = "django_ckeditor_5.storage.CustomStorage"
+
+
+CKEDITOR_5_UPLOAD_FILE_TYPES = [
+    "jpeg",
+    "jpg",
+    "png",
+    "gif",
+    "webp",
+]
