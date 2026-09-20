@@ -6,6 +6,8 @@ from .utils import (
     generate_code,
 )
 
+from django.conf import settings
+
 
 class Category(models.Model):
 
@@ -47,23 +49,49 @@ class Category(models.Model):
     )
 
 
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="created_categories"
+    )
+
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="updated_categories"
+    )
+
+
+
     def save(self, *args, **kwargs):
 
-        if not self.code:
-            self.code = generate_code(
-                self.display_name or self.name
-            )
+           category_name = (
+               self.display_name
+               or self.name
+           )
 
-        if not self.slug:
-            self.slug = generate_slug(
-                self.display_name or self.name
-            )
+           if not self.code:
+               from .utils import generate_unique_code
 
-        super().save(*args, **kwargs)
+               self.code = generate_unique_code(
+                   category_name,
+                   Category,
+                   self
+               )
+
+           if not self.slug:
+               self.slug = generate_slug(
+                   category_name
+               )
+
+           super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.display_name
-
+        return self.display_name or self.name
 
 
 class Brand(models.Model):
@@ -105,6 +133,22 @@ class Brand(models.Model):
         auto_now=True
     )
 
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="created_brands"
+    )
+
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="updated_brands"
+    )
+
 
     def save(self, *args, **kwargs):
 
@@ -142,6 +186,30 @@ class Color(models.Model):
     code = models.CharField(
         max_length=3,
         unique=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="created_colors"
+    )
+
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="updated_colors"
     )
 
 

@@ -32,9 +32,9 @@ urlpatterns = [
     ),
 
     path(
-    "approve/<int:request_id>/",
-    views.approve_admin_access,
-    name="approve_admin_access",
+        "approve/<int:request_id>/",
+        views.approve_admin_access,
+        name="approve_admin_access",
     ),
 
     path(
@@ -43,17 +43,62 @@ urlpatterns = [
         name="admin_logout",
     ),
 
+
+    # -------------------------------------------------
+    # Products
+    # -------------------------------------------------
+
     path(
-    "products/",
-    views.product_list,
-    name="products"
+        "products/",
+        views.product_list,
+        name="products"
+    ),
+
+    path(
+        "products/create/",
+        views.product_create,
+        name="product_create"
+    ),
+
+    path(
+        "products/<int:product_id>/edit/",
+        views.product_edit,
+        name="product_edit"
+    ),
+
+    path(
+        "products/<int:product_id>/delete/",
+        views.product_delete,
+        name="product_delete"
     ),
 
 
+    # -------------------------------------------------
+    # Categories
+    # -------------------------------------------------
+
     path(
-    "products/<int:product_id>/edit/",
-    views.product_edit,
-    name="product_edit"
+        "categories/",
+        views.category_list,
+        name="category_list"
+    ),
+
+    path(
+        "categories/create/",
+        views.category_create,
+        name="category_create"
+    ),
+
+    path(
+        "categories/<int:pk>/edit/",
+        views.category_update,
+        name="category_update"
+    ),
+
+    path(
+        "categories/<int:pk>/delete/",
+        views.category_delete,
+        name="category_delete"
     ),
 
 ]

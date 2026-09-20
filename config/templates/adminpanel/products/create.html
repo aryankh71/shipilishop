@@ -1,0 +1,469 @@
+{% extends "adminpanel/base.html" %}
+
+
+{% block title %}
+ایجاد محصول
+{% endblock %}
+
+
+
+{% block page_title %}
+ایجاد محصول
+{% endblock %}
+
+
+
+
+{% block content %}
+{{ form.media }}
+
+<div class="container product-edit">
+
+
+<form method="post" enctype="multipart/form-data">
+
+{% csrf_token %}
+
+
+
+
+<!-- PRODUCT INFO -->
+
+<div class="panel">
+
+
+<div class="panel-title">
+
+اطلاعات محصول
+
+</div>
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+
+<label>
+نام داخلی محصول
+</label>
+
+{{ form.name }}
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+نام نمایشی محصول
+</label>
+
+{{ form.display_name }}
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+دسته‌بندی
+</label>
+
+{{ form.category }}
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+برند
+</label>
+
+{{ form.brand }}
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<div class="form-group image-box">
+
+
+<label>
+تصویر محصول
+</label>
+
+
+
+{{ form.image }}
+
+
+
+{% if form.image.errors %}
+
+<div class="field-error">
+
+{{ form.image.errors }}
+
+</div>
+
+{% endif %}
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- DESCRIPTION -->
+
+
+
+<div class="panel description-panel">
+
+
+<div class="panel-title">
+
+توضیحات محصول
+
+</div>
+
+
+
+
+<div class="editor-box">
+
+
+{{ form.description }}
+
+
+
+{% if form.description.errors %}
+
+<div class="field-error">
+
+{{ form.description.errors }}
+
+</div>
+
+{% endif %}
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- STATUS -->
+
+
+<div class="panel status-panel">
+
+
+<div class="checkbox-group">
+
+
+{{ form.is_active }}
+
+
+<label>
+
+محصول فعال باشد
+
+</label>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- VARIANTS -->
+
+
+<div class="panel">
+
+
+<div class="panel-title">
+
+تنوع کالاها
+
+</div>
+
+
+
+
+
+{{ variant_formset.management_form }}
+
+
+
+
+<table class="variant-table">
+
+
+<thead>
+
+<tr>
+
+<th>
+رنگ
+</th>
+
+<th>
+سایز
+</th>
+
+<th>
+SKU
+</th>
+
+<th>
+بارکد
+</th>
+
+<th>
+قیمت
+</th>
+
+<th>
+موجودی
+</th>
+
+<th>
+رزرو
+</th>
+
+<th>
+حد هشدار
+</th>
+
+<th>
+فعال
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+
+
+<tbody>
+
+
+
+{% for variant_form in variant_formset %}
+
+
+
+<tr>
+
+
+{% for hidden in variant_form.hidden_fields %}
+
+{{ hidden }}
+
+{% endfor %}
+
+
+
+<td>
+
+{{ variant_form.color }}
+
+</td>
+
+
+
+
+<td>
+
+{{ variant_form.size }}
+
+</td>
+
+
+
+
+<td>
+
+{{ variant_form.sku_code }}
+
+</td>
+
+
+
+
+<td>
+
+{{ variant_form.barcode }}
+
+</td>
+
+
+
+
+<td>
+
+{{ variant_form.price }}
+
+</td>
+
+
+
+
+<td>
+
+{{ variant_form.stock }}
+
+</td>
+
+
+
+
+<td>
+
+{{ variant_form.reserved_stock }}
+
+</td>
+
+
+
+
+<td>
+
+{{ variant_form.low_stock_threshold }}
+
+</td>
+
+
+
+
+<td>
+
+{{ variant_form.is_active }}
+
+</td>
+
+
+
+</tr>
+
+
+
+{% endfor %}
+
+
+
+</tbody>
+
+
+</table>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ACTIONS -->
+
+
+<div class="save-box">
+
+
+<button 
+type="submit"
+class="save-button"
+>
+
+ایجاد محصول
+
+</button>
+
+
+
+
+<a 
+href="{% url 'adminpanel:products' %}"
+class="cancel-button"
+>
+
+بازگشت
+
+</a>
+
+
+
+</div>
+
+
+
+
+</form>
+
+
+</div>
+
+
+{% endblock %}
+

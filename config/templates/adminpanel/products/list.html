@@ -1,15 +1,11 @@
 {% extends "adminpanel/base.html" %}
 
 
-
 {% block title %}
 
 محصولات
 
 {% endblock %}
-
-
-
 
 
 {% block page_title %}
@@ -19,16 +15,10 @@
 {% endblock %}
 
 
-
-
-
-
 {% block content %}
 
 
-
 <div class="container">
-
 
 
 <h1>
@@ -38,20 +28,14 @@
 </h1>
 
 
-
-
-
 <table>
-
 
 
 <tr>
 
-
 <th>
 نام محصول
 </th>
-
 
 
 <th>
@@ -59,11 +43,9 @@
 </th>
 
 
-
 <th>
 برند
 </th>
-
 
 
 <th>
@@ -71,11 +53,9 @@
 </th>
 
 
-
 <th>
 وضعیت
 </th>
-
 
 
 <th>
@@ -90,9 +70,6 @@
 </tr>
 
 
-
-
-
 {% for product in products %}
 
 
@@ -100,27 +77,31 @@
 
 
 <td>
+
 {{ product.display_name|default:product.name }}
+
 </td>
 
 
-
 <td>
+
 {{ product.category }}
+
 </td>
 
 
-
 <td>
+
 {{ product.brand }}
-</td>
 
+</td>
 
 
 <td>
-{{ product.variant_count }}
-</td>
 
+{{ product.variant_count }}
+
+</td>
 
 
 <td>
@@ -142,21 +123,51 @@
 </td>
 
 
-
 <td>
+
 {{ product.created_at|date:"Y/m/d" }}
+
 </td>
 
 
-
 <td>
 
-<a href="{% url 'adminpanel:product_edit' product.id %}">
+
+<a
+href="{% url 'adminpanel:product_edit' product.id %}"
+>
+
 ویرایش
+
 </a>
 
-</td>
 
+{% if product.is_active %}
+
+<form
+method="post"
+action="{% url 'adminpanel:product_delete' product.id %}"
+style="display: inline;"
+onsubmit="return confirm('آیا از حذف این محصول اطمینان دارید؟');"
+>
+
+{% csrf_token %}
+
+<button
+type="submit"
+class="delete-button"
+>
+
+حذف
+
+</button>
+
+</form>
+
+{% endif %}
+
+
+</td>
 
 
 </tr>
@@ -168,7 +179,9 @@
 <tr>
 
 <td colspan="7">
+
 محصولی وجود ندارد
+
 </td>
 
 </tr>
@@ -177,18 +190,10 @@
 {% endfor %}
 
 
-
-
-
-
 </table>
 
 
-
-
 </div>
-
-
 
 
 {% endblock %}

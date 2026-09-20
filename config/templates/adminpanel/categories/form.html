@@ -1,0 +1,131 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block page_title %}
+{{ page_title }}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'adminpanel/css/categories.css' %}">
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="categories-page">
+
+    <div class="categories-header">
+
+        <div class="categories-header-info">
+
+            <h1>
+                {{ page_title }}
+            </h1>
+
+            <p>
+                اطلاعات دسته‌بندی را وارد کنید.
+            </p>
+
+        </div>
+
+        <a
+            href="{% url 'adminpanel:category_list' %}"
+            class="category-btn category-btn-secondary"
+        >
+            بازگشت
+        </a>
+
+    </div>
+
+
+    <div class="category-form-card">
+
+        <form method="post" class="category-form">
+
+            {% csrf_token %}
+
+
+            {% if form.non_field_errors %}
+
+                <div class="category-form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+
+            {% endif %}
+
+
+            <div class="category-form-group">
+
+                <label for="{{ form.name.id_for_label }}">
+                    نام دسته‌بندی
+                </label>
+
+                {{ form.name }}
+
+                {% if form.name.errors %}
+                    <div class="category-field-error">
+                        {{ form.name.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <div class="category-form-group">
+
+                <label for="{{ form.display_name.id_for_label }}">
+                    نام نمایشی
+                </label>
+
+                {{ form.display_name }}
+
+                {% if form.display_name.errors %}
+                    <div class="category-field-error">
+                        {{ form.display_name.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <div class="category-form-checkbox">
+
+                {{ form.is_active }}
+
+                <label for="{{ form.is_active.id_for_label }}">
+                    دسته‌بندی فعال باشد
+                </label>
+
+            </div>
+
+
+            <div class="category-form-actions">
+
+                <a
+                    href="{% url 'adminpanel:category_list' %}"
+                    class="category-btn category-btn-secondary"
+                >
+                    انصراف
+                </a>
+
+                <button
+                    type="submit"
+                    class="category-btn category-btn-primary"
+                >
+                    ذخیره
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

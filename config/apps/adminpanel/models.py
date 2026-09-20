@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
 
 
 class AdminRequest(models.Model):
@@ -132,3 +133,112 @@ class AdminAccess(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.status}"
+
+
+
+class ProductDeletionLog(models.Model):
+
+    product = models.ForeignKey(
+        "shop.Product",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="deletion_logs",
+        verbose_name="محصول"
+    )
+
+    deleted_product_id = models.PositiveBigIntegerField(
+        verbose_name="شناسه محصول"
+    )
+
+    product_name = models.CharField(
+        max_length=200,
+        verbose_name="نام محصول"
+    )
+
+    deleted_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="product_deletion_logs",
+        verbose_name="حذف توسط"
+    )
+
+    ip_address = models.GenericIPAddressField(
+        verbose_name="IP"
+    )
+
+    deleted_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="تاریخ و ساعت حذف"
+    )
+
+    class Meta:
+        ordering = ["-deleted_at"]
+        verbose_name = "لاگ حذف محصول"
+        verbose_name_plural = "لاگ حذف محصولات"
+
+    def __str__(self):
+        return f"{self.product_name} - {self.deleted_by}"
+
+
+
+class CatalogRecordLock(models.Model):
+
+    content_type = models.ForeignKey(
+        ContentType,
+        on_delete=models.CASCADE,
+        related_name="catalog_record_locks",
+    )
+
+    object_id = models.PositiveBigIntegerField()
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="catalog_record_locks",
+    )
+
+    started_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    last_activity = models.DateTimeField(
+        auto_now=True,
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    "content_type",
+                    "object_id",
+                ],
+                name="unique_catalog_record_lock",
+            ),
+        ]
+
+        indexes = [
+            models.Index(
+                fields=[
+                    "content_type",
+                    "object_id",
+                ]
+            ),
+            models.Index(
+                fields=[
+                    "last_activity",
+                ]
+            ),
+        ]
+
+        verbose_name = "قفل رکورد کاتالوگ"
+        verbose_name_plural = "قفل‌های رکورد کاتالوگ"
+
+    def __str__(self):
+        return (
+            f"{self.content_type.model} "
+            f"#{self.object_id} - "
+            f"{self.user.username}"
+        )

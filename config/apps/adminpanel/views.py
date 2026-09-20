@@ -18,6 +18,15 @@ from .dashboard.controllers.dashboard import dashboard
 from .dashboard.controllers.products import (
     product_list,
     product_edit,
+    product_create,
+    product_delete,
+)
+
+from .dashboard.controllers.categories import (
+    category_list,
+    category_create,
+    category_update,
+    category_delete,
 )
 
 # =========================================================
@@ -410,4 +419,5 @@ def dynamic_admin_entry(request, url_secret):
         login(request, user)
 
     return redirect("adminpanel:dashboard")
+
 

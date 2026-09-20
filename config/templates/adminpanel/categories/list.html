@@ -1,0 +1,182 @@
+{% extends "adminpanel/base.html" %}
+{% load static %}
+
+{% block title %}
+دسته‌بندی‌ها
+{% endblock %}
+
+{% block page_title %}
+دسته‌بندی‌ها
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'adminpanel/css/categories.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="categories-page">
+
+    <div class="categories-header">
+
+        <div class="categories-header-info">
+            <h1>دسته‌بندی‌ها</h1>
+
+            <p>
+                مدیریت دسته‌بندی‌های محصولات
+            </p>
+        </div>
+
+        <a
+            href="{% url 'adminpanel:category_create' %}"
+            class="category-btn category-btn-primary"
+        >
+            افزودن دسته‌بندی
+        </a>
+
+    </div>
+
+
+    <div class="categories-card">
+
+        <div class="categories-card-header">
+
+            <h2>
+                لیست دسته‌بندی‌ها
+            </h2>
+
+            <span class="categories-count">
+                {{ categories|length }} دسته‌بندی
+            </span>
+
+        </div>
+
+
+        {% if categories %}
+
+            <div class="categories-table-wrapper">
+
+                <table class="categories-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>#</th>
+                            <th>نام</th>
+                            <th>نام نمایشی</th>
+                            <th>کد</th>
+                            <th>محصولات</th>
+                            <th>وضعیت</th>
+                            <th>عملیات</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for category in categories %}
+
+                            <tr>
+
+                                <td>
+                                    {{ forloop.counter }}
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        {{ category.name }}
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    {{ category.display_name|default:"-" }}
+                                </td>
+
+                                <td>
+                                    <span class="category-code">
+                                        {{ category.code|default:"-" }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {{ category.product_count }}
+                                </td>
+
+                                <td>
+
+                                    {% if category.is_active %}
+
+                                        <span class="category-status category-status-active">
+                                            فعال
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="category-status category-status-inactive">
+                                            غیرفعال
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    <div class="category-actions">
+
+                                        <a
+                                            href="{% url 'adminpanel:category_update' category.pk %}"
+                                            class="category-action category-action-edit"
+                                        >
+                                            ویرایش
+                                        </a>
+
+                                        <a
+                                            href="{% url 'adminpanel:category_delete' category.pk %}"
+                                            class="category-action category-action-delete"
+                                        >
+                                            حذف
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="categories-empty">
+
+                <h3>
+                    هنوز دسته‌بندی‌ای ایجاد نشده است.
+                </h3>
+
+                <p>
+                    برای شروع، اولین دسته‌بندی را ایجاد کنید.
+                </p>
+
+                <a
+                    href="{% url 'adminpanel:category_create' %}"
+                    class="category-btn category-btn-primary"
+                >
+                    افزودن دسته‌بندی
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

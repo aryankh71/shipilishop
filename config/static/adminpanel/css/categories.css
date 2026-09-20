@@ -1,0 +1,457 @@
+/* =========================================================
+   Categories - CRUD
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   Page
+   --------------------------------------------------------- */
+
+.categories-page {
+    width: 100%;
+    direction: rtl;
+}
+
+
+/* ---------------------------------------------------------
+   Header
+   --------------------------------------------------------- */
+
+.categories-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.categories-header-info h1 {
+    margin: 0 0 8px;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.categories-header-info p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+
+/* ---------------------------------------------------------
+   Card
+   --------------------------------------------------------- */
+
+.categories-card,
+.category-form-card,
+.category-delete-card {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.categories-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.categories-card-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.categories-count {
+    font-size: 13px;
+    opacity: 0.65;
+}
+
+
+/* ---------------------------------------------------------
+   Table
+   --------------------------------------------------------- */
+
+.categories-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.categories-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: right;
+}
+
+.categories-table th {
+    padding: 15px 20px;
+    background: #fafafa;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.categories-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.categories-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.categories-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.categories-table tbody tr:hover {
+    background-color: #fafafa;
+}
+
+
+/* ---------------------------------------------------------
+   Code
+   --------------------------------------------------------- */
+
+.category-code {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 9px;
+    border-radius: 6px;
+    background: #f3f3f3;
+    font-size: 12px;
+    font-weight: 600;
+    direction: ltr;
+}
+
+
+/* ---------------------------------------------------------
+   Status
+   --------------------------------------------------------- */
+
+.category-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 55px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.category-status-active {
+    background: #eaf7ee;
+    color: #21863a;
+}
+
+.category-status-inactive {
+    background: #f3f3f3;
+    color: #777777;
+}
+
+
+/* ---------------------------------------------------------
+   Actions
+   --------------------------------------------------------- */
+
+.category-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.category-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 12px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.category-action-edit {
+    background: #f1f5ff;
+    color: #3157a6;
+}
+
+.category-action-edit:hover {
+    background: #e4ebff;
+}
+
+.category-action-delete {
+    background: #fff0f0;
+    color: #c62828;
+}
+
+.category-action-delete:hover {
+    background: #ffe1e1;
+}
+
+
+/* ---------------------------------------------------------
+   Buttons
+   --------------------------------------------------------- */
+
+.category-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.category-btn-primary {
+    background: #222222;
+    color: #ffffff;
+}
+
+.category-btn-primary:hover {
+    background: #111111;
+}
+
+.category-btn-secondary {
+    background: #f1f1f1;
+    color: #333333;
+}
+
+.category-btn-secondary:hover {
+    background: #e5e5e5;
+}
+
+.category-btn-danger {
+    background: #c62828;
+    color: #ffffff;
+}
+
+.category-btn-danger:hover {
+    background: #a91f1f;
+}
+
+
+/* ---------------------------------------------------------
+   Empty State
+   --------------------------------------------------------- */
+
+.categories-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 20px;
+    text-align: center;
+}
+
+.categories-empty h3 {
+    margin: 0 0 8px;
+    font-size: 17px;
+}
+
+.categories-empty p {
+    margin: 0 0 22px;
+    font-size: 14px;
+    opacity: 0.65;
+}
+
+
+/* ---------------------------------------------------------
+   Form
+   --------------------------------------------------------- */
+
+.category-form-card {
+    padding: 28px;
+}
+
+.category-form {
+    width: 100%;
+    max-width: 700px;
+}
+
+.category-form-group {
+    margin-bottom: 22px;
+}
+
+.category-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.category-form-group input[type="text"] {
+    width: 100%;
+    height: 44px;
+    padding: 0 13px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #222222;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s ease,
+                box-shadow 0.15s ease;
+    box-sizing: border-box;
+}
+
+.category-form-group input[type="text"]:focus {
+    border-color: #777777;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.category-form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 26px;
+}
+
+.category-form-checkbox input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.category-form-checkbox label {
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.category-form-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid #eeeeee;
+}
+
+
+/* ---------------------------------------------------------
+   Form Errors
+   --------------------------------------------------------- */
+
+.category-form-errors,
+.category-field-error {
+    margin-top: 7px;
+    color: #c62828;
+    font-size: 12px;
+}
+
+.category-form-errors {
+    margin-bottom: 20px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #fff0f0;
+}
+
+
+/* ---------------------------------------------------------
+   Delete Confirmation
+   --------------------------------------------------------- */
+
+.category-delete-card {
+    max-width: 520px;
+    margin: 40px auto;
+    padding: 40px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.category-delete-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #fff0f0;
+    color: #c62828;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.category-delete-card h1 {
+    margin: 0 0 14px;
+    font-size: 21px;
+}
+
+.category-delete-card p {
+    margin: 0 0 10px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.category-delete-warning {
+    color: #c62828;
+}
+
+.category-delete-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 28px;
+}
+
+
+/* ---------------------------------------------------------
+   Responsive
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    .categories-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .categories-header .category-btn {
+        width: 100%;
+    }
+
+    .categories-card-header {
+        padding: 16px;
+    }
+
+    .categories-table th,
+    .categories-table td {
+        padding: 13px 14px;
+    }
+
+    .category-form-card {
+        padding: 20px;
+    }
+
+    .category-delete-card {
+        margin: 20px 0;
+        padding: 28px 20px;
+    }
+
+    .category-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .category-action {
+        width: 100%;
+    }
+}

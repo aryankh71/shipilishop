@@ -1,7 +1,6 @@
 from django import forms
 from django.forms import inlineformset_factory
 from django_ckeditor_5.widgets import CKEditor5Widget
-
 from apps.shop.models import (
     Product,
     ProductVariant,
@@ -509,3 +508,137 @@ ProductVariantFormSet = inlineformset_factory(
     can_delete=True,
 
 )
+
+
+
+
+
+class CategoryForm(forms.ModelForm):
+
+    class Meta:
+
+        model = Category
+
+        fields = [
+            "name",
+            "display_name",
+            "is_active",
+        ]
+
+        labels = {
+            "name": "نام دسته‌بندی",
+            "display_name": "نام نمایشی",
+            "is_active": "دسته‌بندی فعال باشد",
+        }
+
+        widgets = {
+
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "نام دسته‌بندی",
+                }
+            ),
+
+            "display_name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "نام نمایشی",
+                }
+            ),
+
+            "is_active": forms.CheckboxInput(
+                attrs={
+                    "class": "form-check-input",
+                }
+            ),
+        }
+
+
+
+# ==========================
+# Brand Form
+# ==========================
+
+
+class BrandForm(forms.ModelForm):
+
+    class Meta:
+
+        model = Brand
+
+        fields = [
+            "name",
+            "display_name",
+            "is_active",
+        ]
+
+        labels = {
+            "name": "نام برند",
+            "display_name": "نام نمایشی",
+            "is_active": "برند فعال باشد",
+        }
+
+        widgets = {
+
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "نام برند",
+                }
+            ),
+
+            "display_name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "نام نمایشی",
+                }
+            ),
+
+            "is_active": forms.CheckboxInput(
+                attrs={
+                    "class": "form-check-input",
+                }
+            ),
+
+        }
+
+
+# ==========================
+# Color Form
+# ==========================
+
+
+class ColorForm(forms.ModelForm):
+
+    class Meta:
+
+        model = Color
+
+        fields = [
+            "name",
+            "display_name",
+        ]
+
+        labels = {
+            "name": "نام رنگ",
+            "display_name": "نام نمایشی",
+        }
+
+        widgets = {
+
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "نام رنگ",
+                }
+            ),
+
+            "display_name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "نام نمایشی",
+                }
+            ),
+
+        }

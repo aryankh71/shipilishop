@@ -2,23 +2,20 @@
 
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-<link rel="stylesheet" href="{% static 'css/fonts.css' %}">
-<head>
 
+<head>
 
 <meta charset="UTF-8">
 
+<link rel="stylesheet" href="{% static 'css/fonts.css' %}">
 
 <title>
 
 {% block title %}
-
 پنل مدیریت
-
 {% endblock %}
 
 </title>
-
 
 
 <link 
@@ -31,8 +28,8 @@ href="https://cdn.jsdelivr.net/npm/dashicons@0.1.1/css/dashicons.min.css"
 rel="stylesheet"
 href="{% static 'adminpanel/css/dashboard.css' %}"
 >
-
-
+{% block extra_css %}
+{% endblock %}
 </head>
 
 
@@ -48,7 +45,7 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 <div class="logo">
 
-    شیپیلی شاپ
+شیپیلی شاپ
 
 </div>
 
@@ -57,6 +54,8 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 <nav class="menu">
 
 
+
+<!-- DASHBOARD -->
 
 <a href="{% url 'adminpanel:dashboard' %}">
 
@@ -69,16 +68,68 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 
 
-<a href="{% url 'adminpanel:products' %}">
+
+<!-- PRODUCTS -->
+
+<div class="menu-group">
+
+
+<a 
+href="javascript:void(0);"
+class="menu-main"
+onclick="toggleSubmenu(this)"
+>
 
 <span class="dashicons dashicons-products"></span>
 
+<span class="menu-title">
 محصولات
+</span>
+
+<span class="dashicons dashicons-arrow-down-alt2 menu-arrow"></span>
 
 </a>
 
 
 
+<div class="submenu">
+
+
+<a 
+href="{% url 'adminpanel:products' %}"
+class="submenu-item"
+>
+
+<span class="dashicons dashicons-list-view"></span>
+
+لیست محصولات
+
+</a>
+
+
+
+<a 
+href="{% url 'adminpanel:product_create' %}"
+class="submenu-item"
+>
+
+<span class="dashicons dashicons-plus-alt2"></span>
+
+افزودن محصول
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- ORDERS -->
 
 <a href="#">
 
@@ -91,6 +142,9 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 
 
+
+<!-- USERS -->
+
 <a href="#">
 
 <span class="dashicons dashicons-admin-users"></span>
@@ -102,7 +156,10 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 
 
-<a href="#">
+
+<!-- CATEGORIES -->
+
+<a href="{% url 'adminpanel:category_list' %}">
 
 <span class="dashicons dashicons-tag"></span>
 
@@ -112,6 +169,9 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 
 
+
+
+<!-- DISCOUNTS -->
 
 <a href="#">
 
@@ -124,6 +184,9 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 
 
+
+<!-- REPORTS -->
+
 <a href="#">
 
 <span class="dashicons dashicons-chart-line"></span>
@@ -135,6 +198,9 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 
 
+
+<!-- SETTINGS -->
+
 <a href="#">
 
 <span class="dashicons dashicons-admin-settings"></span>
@@ -145,6 +211,9 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 
 
+
+
+<!-- LOGOUT -->
 
 <a href="{% url 'adminpanel:admin_logout' %}">
 
@@ -166,6 +235,7 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 
 
+
 <!-- MAIN -->
 
 <main class="main">
@@ -176,12 +246,10 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 <!-- HEADER -->
 
-
 <header class="header">
 
 
 <div>
-
 
 <h1>
 
@@ -193,13 +261,7 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 </h1>
 
-
-
-
-
-
 </div>
-
 
 
 
@@ -221,28 +283,33 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 </div>
 
 
-
 </header>
 
 
+
+
+
+<!-- MESSAGES -->
 
 {% if messages %}
 
 <div class="toast-container">
 
-    {% for message in messages %}
+{% for message in messages %}
 
-    <div class="toast-message {{ message.tags }}">
+<div class="toast-message {{ message.tags }}">
 
-        {{ message }}
+{{ message }}
 
-    </div>
+</div>
 
-    {% endfor %}
+{% endfor %}
 
 </div>
 
 {% endif %}
+
+
 
 
 
@@ -254,11 +321,41 @@ href="{% static 'adminpanel/css/dashboard.css' %}"
 
 
 
-
-
-
-
 </main>
+
+
+
+
+<script>
+
+function toggleSubmenu(element) {
+
+    const submenu = element.nextElementSibling;
+
+    const arrow = element.querySelector(".menu-arrow");
+
+    const isOpen = submenu.classList.contains("open");
+
+
+    if (isOpen) {
+
+        submenu.classList.remove("open");
+
+        arrow.classList.remove("open");
+
+    } 
+    
+    else {
+
+        submenu.classList.add("open");
+
+        arrow.classList.add("open");
+
+    }
+
+}
+
+</script>
 
 
 

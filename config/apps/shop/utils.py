@@ -1,6 +1,7 @@
 import random
 import re
 from django.utils.text import slugify
+from unidecode import unidecode
 
 
 # -----------------------------------
@@ -59,36 +60,79 @@ def generate_code(value):
     if not value:
         return "GEN"
 
-
-    value = value.strip()
-
-
-    # حذف فاصله و کاراکترهای اضافی
-    clean = (
-        value
-        .replace("-", "")
-        .replace(" ", "")
-        .upper()
+    text = unidecode(
+        value.strip()
     )
 
-
-    # اگر انگلیسی بود
-    english = "".join(
-        c for c in clean
-        if c.isascii()
-        and c.isalpha()
+    words = re.findall(
+        r"[A-Za-z]+",
+        text
     )
 
+    if not words:
+        return "GEN"
 
-    if english:
-        return english[:3]
+    # -----------------------------------
+    # Multi-word category
+    # -----------------------------------
+
+    if len(words) > 1:
+
+        code = "".join(
+            word[0]
+            for word in words
+        )
+
+    # -----------------------------------
+    # Single-word category
+    # -----------------------------------
+
+    else:
+
+        word = words[0].upper()
+
+        # حذف حروف صدادار
+        consonants = re.sub(
+            r"[AEIOU]",
+            "",
+            word
+        )
+
+        if len(consonants) >= 4:
+            code = consonants[:4]
+
+        else:
+            code = word[:4]
+
+    return code[:4].upper() or "GEN"
 
 
-    # فارسی:
-    # سه حرف اول
-    return clean[:3].upper()
+def generate_unique_code(value, model, instance=None):
 
+    base_code = generate_code(value)
 
+    code = base_code
+    counter = 2
+
+    queryset = model.objects.all()
+
+    if instance and instance.pk:
+        queryset = queryset.exclude(
+            pk=instance.pk
+        )
+
+    while queryset.filter(code=code).exists():
+
+        suffix = str(counter)
+
+        code = (
+            base_code[:4 - len(suffix)]
+            + suffix
+        )
+
+        counter += 1
+
+    return code
 
 # -----------------------------------
 # Generate SKU

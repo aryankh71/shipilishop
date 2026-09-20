@@ -2,6 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Count
 from apps.shop.models import Product
 from django.contrib import messages
+from datetime import time
+from django.db import transaction
+from django.utils import timezone
+from apps.adminpanel.models import ProductDeletionLog
+
 
 from ...decorators import admin_required
 from ...forms import (
@@ -9,7 +14,14 @@ from ...forms import (
     ProductVariantFormSet,
 )
 
+def get_client_ip(request):
 
+    forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
+
+    if forwarded_for:
+        return forwarded_for.split(",")[0].strip()
+
+    return request.META.get("REMOTE_ADDR")
 
 @admin_required
 def product_list(request):
@@ -98,10 +110,6 @@ def product_edit(request, product_id):
 
 
         else:
-            print("PRODUCT FORM ERRORS:")
-            print(form.errors)
-            print("VARIANT FORMSET ERRORS:")
-            print(variant_formset.errors)
 
 
             messages.error(
@@ -141,4 +149,113 @@ def product_edit(request, product_id):
         request,
         "adminpanel/products/edit.html",
         context
+    )
+
+
+
+@admin_required
+def product_create(request):
+
+    if request.method == "POST":
+
+        form = ProductForm(
+            request.POST,
+            request.FILES
+        )
+
+        if form.is_valid():
+
+            product = form.save()
+
+            messages.success(
+                request,
+                "محصول با موفقیت ایجاد شد."
+            )
+
+            return redirect(
+                "adminpanel:product_edit",
+                product_id=product.id
+            )
+
+        else:
+
+            messages.error(
+                request,
+                "ایجاد محصول انجام نشد. لطفاً اطلاعات وارد شده را بررسی کنید."
+            )
+
+    else:
+
+        form = ProductForm()
+
+    context = {
+
+        "form": form,
+
+    }
+
+    return render(
+        request,
+        "adminpanel/products/create.html",
+        context
+    )
+
+@admin_required
+def product_delete(request, product_id):
+
+    if request.method != "POST":
+        return redirect(
+            "adminpanel:products"
+        )
+
+    now = timezone.localtime()
+
+    current_time = now.time()
+
+    if not (
+        time(9, 0) <= current_time < time(17, 0)
+    ):
+        messages.error(
+            request,
+            "حذف محصول فقط بین ساعت 09:00 تا 17:00 امکان‌پذیر است."
+        )
+
+        return redirect(
+            "adminpanel:products"
+        )
+
+    product = get_object_or_404(
+        Product,
+        id=product_id,
+        is_active=True
+    )
+
+    ip_address = get_client_ip(request)
+
+    with transaction.atomic():
+
+        product.is_active = False
+
+        product.save(
+            update_fields=[
+                "is_active",
+                "updated_at",
+            ]
+        )
+
+        ProductDeletionLog.objects.create(
+            product=product,
+            deleted_product_id=product.id,
+            product_name=product.name,
+            deleted_by=request.user,
+            ip_address=ip_address,
+        )
+
+    messages.success(
+        request,
+        "محصول با موفقیت حذف شد."
+    )
+
+    return redirect(
+        "adminpanel:products"
     )
