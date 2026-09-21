@@ -7,12 +7,19 @@ from django.db import transaction
 from django.utils import timezone
 from apps.adminpanel.models import ProductDeletionLog
 
+from apps.adminpanel.services import (
+    acquire_catalog_lock,
+    release_catalog_lock,
+    refresh_catalog_lock,
+)
 
 from ...decorators import admin_required
 from ...forms import (
     ProductForm,
     ProductVariantFormSet,
 )
+
+
 
 def get_client_ip(request):
 
@@ -68,6 +75,28 @@ def product_edit(request, product_id):
         id=product_id
     )
 
+    try:
+        if request.method == "POST":
+            refresh_catalog_lock(
+                record=product,
+                user=request.user,
+                )
+        else:
+            acquire_catalog_lock(
+                record=product,
+                user=request.user,
+            )
+    except (ValueError, PermissionError) as exc:
+
+        messages.error(
+            request,
+            str(exc),
+        )
+
+        return redirect(
+            "adminpanel:products"
+        )
+
 
     if request.method == "POST":
 
@@ -95,6 +124,10 @@ def product_edit(request, product_id):
             variant_formset.save()
 
 
+            release_catalog_lock(
+                record=product,
+                user=request.user,
+            )
 
             messages.success(
                 request,

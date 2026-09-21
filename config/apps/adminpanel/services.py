@@ -1,15 +1,19 @@
 import hashlib
 import secrets
 from datetime import timedelta
-
+from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
-from django.db import transaction
 from django.urls import reverse
 from django.utils import timezone
-
-from .models import AdminAccess, AdminOTP, AdminRequest
+from django.db import IntegrityError, transaction
+from .models import (
+    AdminAccess,
+    AdminOTP,
+    AdminRequest,
+    CatalogRecordLock,
+)
 
 
 User = get_user_model()
@@ -428,3 +432,298 @@ def revoke_admin_access(
     )
 
     return access
+
+
+OTP_EXPIRY_MINUTES = 5
+OTP_MAX_ATTEMPTS = 5
+CATALOG_LOCK_TIMEOUT_MINUTES = 10
+
+
+# =========================================================
+# Catalog Record Lock
+# =========================================================
+
+@transaction.atomic
+def acquire_catalog_lock(record, user):
+    """
+    Acquire an edit lock for a catalog record.
+
+    Rules:
+        - Only one user can hold the lock.
+        - Expired locks can be taken over.
+        - The same user can refresh their own lock.
+        - Database UniqueConstraint protects against race conditions.
+    """
+
+    if not user.is_authenticated:
+        raise PermissionError(
+            "برای قفل کردن رکورد باید وارد حساب شوید."
+        )
+
+    if not user.is_active:
+        raise PermissionError(
+            "کاربر غیرفعال نمی‌تواند رکورد را قفل کند."
+        )
+
+    if not record.pk:
+        raise ValueError(
+            "رکورد موردنظر شناسه معتبری ندارد."
+        )
+
+    content_type = ContentType.objects.get_for_model(
+        record,
+        for_concrete_model=False,
+    )
+
+    now = timezone.now()
+
+    expiration_time = now - timedelta(
+        minutes=CATALOG_LOCK_TIMEOUT_MINUTES
+    )
+
+    lock = (
+        CatalogRecordLock.objects
+        .select_for_update()
+        .filter(
+            content_type=content_type,
+            object_id=record.pk,
+        )
+        .first()
+    )
+
+    # -----------------------------------------------------
+    # No existing lock
+    # -----------------------------------------------------
+
+    if lock is None:
+        try:
+            return CatalogRecordLock.objects.create(
+                content_type=content_type,
+                object_id=record.pk,
+                user=user,
+            )
+
+        except IntegrityError:
+            lock = (
+                CatalogRecordLock.objects
+                .select_for_update()
+                .get(
+                    content_type=content_type,
+                    object_id=record.pk,
+                )
+            )
+
+    # -----------------------------------------------------
+    # Same user already owns the lock
+    # -----------------------------------------------------
+
+    if lock.user_id == user.id:
+        lock.last_activity = now
+
+        lock.save(
+            update_fields=["last_activity"]
+        )
+
+        return lock
+
+    # -----------------------------------------------------
+    # Existing lock has expired
+    # -----------------------------------------------------
+
+    if lock.last_activity <= expiration_time:
+        lock.user = user
+        lock.started_at = now
+        lock.last_activity = now
+
+        lock.save(
+            update_fields=[
+                "user",
+                "started_at",
+                "last_activity",
+            ]
+        )
+
+        return lock
+
+    # -----------------------------------------------------
+    # Another active user owns the lock
+    # -----------------------------------------------------
+
+    raise ValueError(
+        "این رکورد در حال حاضر توسط کاربر دیگری در حال ویرایش است."
+    )
+
+
+@transaction.atomic
+def release_catalog_lock(record, user):
+    """
+    Release the catalog record lock owned by the current user.
+
+    A user can only release their own lock.
+    """
+
+    if not user.is_authenticated:
+        raise PermissionError(
+            "برای آزاد کردن قفل باید وارد حساب شوید."
+        )
+
+    if not record.pk:
+        raise ValueError(
+            "رکورد موردنظر شناسه معتبری ندارد."
+        )
+
+    content_type = ContentType.objects.get_for_model(
+        record,
+        for_concrete_model=False,
+    )
+
+    lock = (
+        CatalogRecordLock.objects
+        .select_for_update()
+        .filter(
+            content_type=content_type,
+            object_id=record.pk,
+        )
+        .first()
+    )
+
+    # No lock exists
+    if lock is None:
+        return False
+
+    # Another user owns the lock
+    if lock.user_id != user.id:
+        raise PermissionError(
+            "شما مالک قفل این رکورد نیستید."
+        )
+
+    lock.delete()
+
+    return True
+
+
+@transaction.atomic
+def refresh_catalog_lock(record, user):
+    """
+    Refresh the lock owned by the current user.
+
+    The lock remains valid only if:
+        - it exists
+        - it belongs to the current user
+        - it has not already expired
+    """
+
+    if not user.is_authenticated:
+        raise PermissionError(
+            "برای تمدید قفل باید وارد حساب شوید."
+        )
+
+    if not record.pk:
+        raise ValueError(
+            "رکورد موردنظر شناسه معتبری ندارد."
+        )
+
+    content_type = ContentType.objects.get_for_model(
+        record,
+        for_concrete_model=False,
+    )
+
+    lock = (
+        CatalogRecordLock.objects
+        .select_for_update()
+        .filter(
+            content_type=content_type,
+            object_id=record.pk,
+        )
+        .first()
+    )
+
+    if lock is None:
+        raise ValueError(
+            "برای این رکورد قفل فعالی وجود ندارد."
+        )
+
+    if lock.user_id != user.id:
+        raise PermissionError(
+            "شما مالک قفل این رکورد نیستید."
+        )
+
+    now = timezone.now()
+
+    expiration_time = now - timedelta(
+        minutes=CATALOG_LOCK_TIMEOUT_MINUTES
+    )
+
+    if lock.last_activity <= expiration_time:
+        lock.delete()
+
+        raise ValueError(
+            "قفل این رکورد منقضی شده است."
+        )
+
+    lock.last_activity = now
+
+    lock.save(
+        update_fields=["last_activity"]
+    )
+
+    return lock
+
+
+def is_catalog_record_locked(record, exclude_user=None):
+    """
+    Check whether a catalog record currently has an active lock.
+
+    Returns:
+        True  -> record is actively locked
+        False -> record is not locked
+
+    exclude_user:
+        Optional user whose own lock should be ignored.
+    """
+
+    if not record.pk:
+        raise ValueError(
+            "رکورد موردنظر شناسه معتبری ندارد."
+        )
+
+    content_type = ContentType.objects.get_for_model(
+        record,
+        for_concrete_model=False,
+    )
+
+    lock = (
+        CatalogRecordLock.objects
+        .filter(
+            content_type=content_type,
+            object_id=record.pk,
+        )
+        .first()
+    )
+
+    if lock is None:
+        return False
+
+    now = timezone.now()
+
+    expiration_time = now - timedelta(
+        minutes=CATALOG_LOCK_TIMEOUT_MINUTES
+    )
+
+    # -----------------------------------------------------
+    # Lock expired
+    # -----------------------------------------------------
+
+    if lock.last_activity <= expiration_time:
+        lock.delete()
+        return False
+
+    # -----------------------------------------------------
+    # Ignore the current user's own lock
+    # -----------------------------------------------------
+
+    if exclude_user is not None:
+        if lock.user_id == exclude_user.id:
+            return False
+
+    return True
