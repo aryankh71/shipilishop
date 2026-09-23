@@ -468,5 +468,107 @@ class="cancel-button"
 
 </div>
 
+<script>
+(function () {
+
+    const releaseUrl = "{% url 'adminpanel:product_release_lock' product_id=product.id %}";
+    const csrfToken = "{{ csrf_token }}";
+
+    let leavingPage = false;
+
+    function releaseLock() {
+
+        if (leavingPage) {
+            return;
+        }
+
+        leavingPage = true;
+
+        const data = new URLSearchParams();
+        data.append("csrfmiddlewaretoken", csrfToken);
+
+        fetch(releaseUrl, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrfToken,
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: data.toString(),
+            credentials: "same-origin",
+            keepalive: true,
+        }).catch(() => {});
+
+    }
+
+
+    /*
+     * خروج عادی از صفحه
+     */
+    document.querySelector(".cancel-button")
+        ?.addEventListener("click", function () {
+            releaseLock();
+        });
+
+
+    /*
+     * Submit موفق:
+     *
+     * در حال حاضر backend بعد از save قفل را release
+     * و سپس دوباره redirect به edit می‌کند.
+     *
+     * بنابراین اینجا release نمی‌کنیم.
+     */
+
+
+    /*
+     * بستن Tab / Browser / Navigation
+     */
+
+})();
+
+<script>
+(function () {
+
+    const releaseUrl = "{% url 'adminpanel:product_release_lock' product_id=product.id %}";
+    const csrfToken = "{{ csrf_token }}";
+
+    let leavingPage = false;
+
+    function releaseLock() {
+
+        if (leavingPage) {
+            return;
+        }
+
+        leavingPage = true;
+
+        const data = new URLSearchParams();
+        data.append("csrfmiddlewaretoken", csrfToken);
+
+        fetch(releaseUrl, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrfToken,
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: data.toString(),
+            credentials: "same-origin",
+            keepalive: true,
+        }).catch(() => {});
+
+    }
+
+    /*
+     * فقط وقتی کاربر عمداً روی «بازگشت» می‌زند
+     * قفل آزاد می‌شود.
+     */
+    document.querySelector(".cancel-button")
+        ?.addEventListener("click", function () {
+            releaseLock();
+        });
+
+})();
+</script>
+
 
 {% endblock %}

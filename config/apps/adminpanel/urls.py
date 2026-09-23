@@ -1,4 +1,6 @@
 from django.urls import path
+
+from apps.adminpanel.dashboard.controllers.products import product_release_lock
 from . import views
 
 
@@ -100,5 +102,11 @@ urlpatterns = [
         views.category_delete,
         name="category_delete"
     ),
+
+    path(
+        "products/<int:product_id>/release-lock/",
+        product_release_lock,
+        name="product_release_lock",
+        ),
 
 ]

@@ -6,6 +6,7 @@ from datetime import time
 from django.db import transaction
 from django.utils import timezone
 from apps.adminpanel.models import ProductDeletionLog
+from django.http import JsonResponse
 
 from apps.adminpanel.services import (
     acquire_catalog_lock,
@@ -124,10 +125,10 @@ def product_edit(request, product_id):
             variant_formset.save()
 
 
-            release_catalog_lock(
-                record=product,
-                user=request.user,
-            )
+            # release_catalog_lock(
+            #     record=product,
+            #     user=request.user,
+            # )
 
             messages.success(
                 request,
@@ -291,4 +292,34 @@ def product_delete(request, product_id):
 
     return redirect(
         "adminpanel:products"
+    )
+
+
+
+@admin_required
+def product_release_lock(request, product_id):
+    if request.method != "POST":
+        return JsonResponse(
+            {"success": False},
+            status=405
+        )
+
+    product = get_object_or_404(
+        Product,
+        id=product_id
+    )
+
+    try:
+        release_catalog_lock(
+            record=product,
+            user=request.user,
+        )
+    except (ValueError, PermissionError):
+        return JsonResponse(
+            {"success": False},
+            status=403
+        )
+
+    return JsonResponse(
+        {"success": True}
     )

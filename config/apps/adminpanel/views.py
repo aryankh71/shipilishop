@@ -20,6 +20,7 @@ from .dashboard.controllers.products import (
     product_edit,
     product_create,
     product_delete,
+    product_release_lock
 )
 
 from .dashboard.controllers.categories import (
